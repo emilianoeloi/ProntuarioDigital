@@ -22,11 +22,11 @@
             pdCookie.setComment("Login do usuário");
             /// Guardar acesso na Sessao
             HttpSession sessao = request.getSession(true);
-            session.setMaxInactiveInterval(60);
+            session.setMaxInactiveInterval(3600);
             sessao.setAttribute("usuario", usuario);
 
             response.addCookie(pdCookie);
-            response.sendRedirect("cadastro_hospitais.jsp");
+            response.sendRedirect("principal.jsp");
         }else{
             response.sendError(403, "Você não tem permissão!");
 
