@@ -1,7 +1,7 @@
 <div class="well sidebar-nav">
     <ul class="nav nav-list">
       <li class="nav-header">Administrador</li>
-      <li class="active"><a href="#">Hospitais</a></li>
+      <li class="active"><a href="hospitalForm.jsp">Hospitais</a></li>
       <li><a href="#">Médicos</a></li>
       <li><a href="#">Pacientes</a></li>
       <li class="nav-header">Médico</li>
