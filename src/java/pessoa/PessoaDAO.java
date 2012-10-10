@@ -17,19 +17,27 @@ import java.util.Date;
  *
  * @author emilianoeloi
  */
-public class PessoaDAO {
+public class PessoaDAO implements InterfacePessoaDAO {
     
     Connection con = null;
     PreparedStatement ptmt = null;
     ResultSet rs = null;
     
-    private Connection getConexao() throws SQLException{
-        Connection con;
-        con=ConexaoFactory.getInstancia().getConexao();
-        return con;
+    private Connection getConexao() throws PessoaDAOException{
+        try{
+            Connection con;
+            con=ConexaoFactory.getInstancia().getConexao();
+            return con;
+        }catch(Exception e){
+            throw new PessoaDAOException("Erro"+e.getMessage());
+        }
     }
 
-    public void cadastrar(PessoaBean pessoaBean){
+    public void cadastrar(PessoaBean pessoaBean) throws PessoaDAOException{
+        
+        if(pessoaBean == null)
+            throw new PessoaDAOException("O objeto passado não pode ser nulo.");
+        
         try{
             String query = "INSERT INTO pessoas (Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, Data_Nascimento_Pessoa, Senha_Pessoa) "
                           +"VALUES (?,?,?,?,?,?)";
@@ -43,24 +51,21 @@ public class PessoaDAO {
             this.ptmt.setString(6, pessoaBean.getSenha());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
-            e.printStackTrace();
+            throw new PessoaDAOException("Houve uma falha no cadastro"+e);
         }finally{
             try{
-                if(this.rs!=null)
-                    rs.close();
-                if(this.ptmt!=null)
-                    ptmt.close();
-                if(this.con!=null)
-                    this.con.close();
+                this.con.close();
             }catch(SQLException e){
-                e.printStackTrace();
-            }catch(Exception e){
-                e.printStackTrace();
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
             }
         }
     }
     
-    public void alterar(PessoaBean pessoaBean){
+    public void alterar(PessoaBean pessoaBean) throws PessoaDAOException{
+        
+        if(pessoaBean == null)
+            throw new PessoaDAOException("O objeto passado não pode ser nulo.");
+        
         try{
             String query = "UPDATE pessoas SET Nome_Pessoa = ?, Cpf_Pessoa = ?, Email_Pessoa = ?"
                     + ", Id_Pessoa = ?, Data_Nascimento_Pessoa = ?, Senha_Pessoa = ? WHERE Codigo_Pessoa = ?";
@@ -77,49 +82,39 @@ public class PessoaDAO {
             
             this.ptmt.executeUpdate();
         }catch(SQLException e){
-            e.printStackTrace();
+            throw new PessoaDAOException("Houve uma falha na alteração"+e);
         }finally{
             try{
-                if(this.rs!=null)
-                    rs.close();
-                if(this.ptmt!=null)
-                    ptmt.close();
-                if(this.con!=null)
-                    this.con.close();
+                this.con.close();
             }catch(SQLException e){
-                e.printStackTrace();
-            }catch(Exception e){
-                e.printStackTrace();
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
             }
-        } 
+        }
     }
     
-    public void excluir(Integer codigo){
+    public void excluir(PessoaBean pessoaBean) throws PessoaDAOException{
+        
+        if(pessoaBean == null)
+            throw new PessoaDAOException("O objeto passado não pode ser nulo.");
+        
         try{
             String query = "DELETE pessoas WHERE Codigo_Pessoa = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setInt(1, codigo);
+            this.ptmt.setInt(1, pessoaBean.getCodigo());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
-            e.printStackTrace();
+            throw new PessoaDAOException("Houve uma falha na exclusão"+e);
         }finally{
             try{
-                if(this.rs!=null)
-                    rs.close();
-                if(this.ptmt!=null)
-                    ptmt.close();
-                if(this.con!=null)
-                    this.con.close();
+                this.con.close();
             }catch(SQLException e){
-                e.printStackTrace();
-            }catch(Exception e){
-                e.printStackTrace();
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
             }
         } 
     }
     
-    public boolean existePessoaPeloCodigo(Integer codigo){
+    public boolean existePessoaPeloCodigo(Integer codigo) throws PessoaDAOException{
         try{
             String query = "SELECT Codigo_Pessoa FROM pessoas WHERE Codigo_Pessoa = ?";
             this.con = getConexao();
@@ -132,25 +127,18 @@ public class PessoaDAO {
             }
             
         }catch(SQLException e){
-            e.printStackTrace();
+            throw new PessoaDAOException("Houve uma falha na Recuperação "+e);
         }finally{
             try{
-                if(this.rs!=null)
-                    rs.close();
-                if(this.ptmt!=null)
-                    ptmt.close();
-                if(this.con!=null)
-                    this.con.close();
+                this.con.close();
             }catch(SQLException e){
-                e.printStackTrace();
-            }catch(Exception e){
-                e.printStackTrace();
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
             }
         } 
         return false;
     }
     
-    public List retornarTodos(){
+    public List retornarTodos() throws PessoaDAOException{
         
         List pessoas = new ArrayList();
         PessoaBean pessoaBean = null;
@@ -175,25 +163,18 @@ public class PessoaDAO {
             }
             
         }catch(SQLException e){
-            e.printStackTrace();
+            throw new PessoaDAOException("Houve uma falha ao tentar recupear uma lista de Pessoas "+e);
         }finally{
             try{
-                if(this.rs!=null)
-                    rs.close();
-                if(this.ptmt!=null)
-                    ptmt.close();
-                if(this.con!=null)
-                    this.con.close();
+                this.con.close();
             }catch(SQLException e){
-                e.printStackTrace();
-            }catch(Exception e){
-                e.printStackTrace();
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
             }
-        }
+        } 
         return pessoas;
     }
     
-    public PessoaBean retornarPeloCodigo(Integer codigo){
+    public PessoaBean retornarPeloCodigo(Integer codigo) throws PessoaDAOException{
         
         PessoaBean pessoaBean = null;
             
@@ -217,21 +198,14 @@ public class PessoaDAO {
             }
             
         }catch(SQLException e){
-            e.printStackTrace();
+            throw new PessoaDAOException("Houve uma falha ao tentar recuperar "+e);
         }finally{
             try{
-                if(this.rs!=null)
-                    rs.close();
-                if(this.ptmt!=null)
-                    ptmt.close();
-                if(this.con!=null)
-                    this.con.close();
+                this.con.close();
             }catch(SQLException e){
-                e.printStackTrace();
-            }catch(Exception e){
-                e.printStackTrace();
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
             }
-        }
+        } 
         return pessoaBean;
     }
     

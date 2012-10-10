@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 import ferramenta.*;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
 import pessoa.*;
 
 /**
@@ -23,6 +25,56 @@ import pessoa.*;
  */
 @WebServlet(name = "PessoaController", urlPatterns = {"/PessoaController"})
 public class PessoaController extends HttpServlet {
+    
+    protected void service(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException
+    {
+        String acao = request.getParameter("acao");
+        
+        if(acao == null)
+            acao = "principal";
+        
+        InterfacePessoaDAO dao;
+        PessoaBean pessoa = new PessoaBean();
+        
+        if(acao != null || !acao.equalsIgnoreCase("principal")){
+            pessoa.setNome(request.getParameter("nome"));
+            pessoa.setCpf(request.getParameter("cpf"));
+            pessoa.setId(request.getParameter("id"));
+        }
+        
+        try{
+           dao = new PessoaDAO();
+           RequestDispatcher rd = null;
+           if(acao.equalsIgnoreCase("listar")){
+               List pessoasList = dao.retornarTodos();
+               request.setAttribute("pessoasList", pessoasList);
+               rd = request.getRequestDispatcher("pessoaLista.jsp");
+           }else if(acao.equalsIgnoreCase("cadastrar")){
+               dao.cadastrar(pessoa);
+               rd = request.getRequestDispatcher("PesssoaController?acao=listar");
+           }else if(acao.equalsIgnoreCase("excluir")){
+               dao.excluir(pessoa);
+               rd = request.getRequestDispatcher("PesssoaController?acao=listar");
+           }else if(acao.equalsIgnoreCase("obterum")){
+               pessoa = dao.retornarPeloCodigo(pessoa.getCodigo());
+               HttpSession sessao = request.getSession(true);
+               sessao.setAttribute("pessoa", pessoa);
+               rd = request.getRequestDispatcher("PessoaController?acao=listar");
+           }else if(acao.equalsIgnoreCase("alterar")){
+               dao.alterar(pessoa);
+               rd = request.getRequestDispatcher("PessoaController?acao=listar");
+           }else if(acao.equalsIgnoreCase("principal")){
+               rd = request.getRequestDispatcher("principal.jsp");
+           }
+           rd.forward(request, response);
+               
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new ServletException(e);
+        }
+        
+    }
 
     /**
      * Processes requests for both HTTP
@@ -36,56 +88,8 @@ public class PessoaController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        PessoaDAO dao = new PessoaDAO();
-        String paginaView = "pessoaLista.jsp";
-        try {
-            
-            int acao = ControleAcao.getCodigoByAcao( (String)request.getParameter("acao") );
-            switch(acao){
-                case 0: /// Cadastrar
-                    PessoaBean pessoaSalvar = new PessoaBean();
-                    pessoaSalvar.setCpf((String)request.getParameter("cpf"));
-                    pessoaSalvar.setNome((String)request.getParameter("nome"));
-                    pessoaSalvar.setId((String)request.getParameter("id"));
-                    //pessoaSalvar.setDataNascimento(Date.parse((String)request.getParameter("data-nascimento")));
-                    pessoaSalvar.setSenha((String)request.getParameter("senha"));
-                    
-                    dao.cadastrar(pessoaSalvar);
-                    
-                    request.setAttribute("acao", "listar");
-                    
-                    break;
-                case 1: /// Alterar
-                    PessoaBean pessoaAlterar = new PessoaBean();
-                    pessoaAlterar.setCpf((String)request.getParameter("cpf"));
-                    pessoaAlterar.setNome((String)request.getParameter("nome"));
-                    pessoaAlterar.setId((String)request.getParameter("id"));
-                    //pessoaSalvar.setDataNascimento(Date.parse((String)request.getParameter("data-nascimento")));
-                    pessoaAlterar.setSenha((String)request.getParameter("senha"));
-                    
-                    dao.alterar(pessoaAlterar);
-                    break;
-                case 2: /// Excluir
-                    break;
-                case 3: /// Obter 1 Pessoa
-                    break;
-                case 4: /// Listar
-                    break;
-                case 5: // Formulário de cadastro
-                    paginaView = "pessoaForm.jsp";
-                    break;
-                default:
-                    break;
-            }
-            
-            RequestDispatcher view = request.getRequestDispatcher(paginaView);
-            view.forward(request, response);
-            
-        } finally {            
-            out.close();
-        }
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,20 +1,10 @@
-<%-- 
-    Document   : hospitalForm
-    Created on : Oct 3, 2012, 10:20:33 AM
-    Author     : emilianoeloi
---%>
-
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<link type="text/css" rel="stylesheet" href="css/bootstrap.css"/>
-		<link rel="stylesheet" type="text/css" href="mycss/style.css" />
-                <title>Prontuário Digital - Formulário</title>
-	</head>
-            <body>
-                <div class="container">
-                <form class="form-pessoa" method="POST" action="PessoaController">
+<!-- incluindo o cabecalho -->
+<jsp:include page="cabecalho.jsp" flush="true">
+    <jsp:param name="login" value="generico" />
+</jsp:include>
+    <div class="span9">
+        <h2>Pessoa</h2>
+<form class="form-pessoa" method="POST" action="PessoaController">
                     <input type="hidden" id="acao" name="acao" value="cadastrar " />
                     <fieldset>
                         <legend>Pessoa</legend>
@@ -47,6 +37,8 @@
                         </div>
                     </fieldset>
 			</form>
-                </div>
-            </body>
-</html>
+    </div> 
+<!-- inclusao do rodape -->
+<jsp:include page="rodape.jsp" flush="true">
+    <jsp:param name="login" value="generico" />
+</jsp:include>
