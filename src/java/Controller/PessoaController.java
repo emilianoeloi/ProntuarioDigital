@@ -29,21 +29,31 @@ public class PessoaController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException
     {
+        /// sessao
+        HttpSession sessao = request.getSession(true);
+        
+        /// Receber variavel de acao
         String acao = request.getParameter("acao");
         
+        /// Acao Padao
         if(acao == null)
-            acao = "principal";
+            acao = "listar";
         
+        /// Instanciar bean/dao - Data Access Object
         InterfacePessoaDAO dao;
         PessoaBean pessoa = new PessoaBean();
         
-        if(acao != null || !acao.equalsIgnoreCase("principal")){
+        
+        if(acao != null || !acao.equalsIgnoreCase("lista")){
             pessoa.setNome(request.getParameter("nome"));
             pessoa.setCpf(request.getParameter("cpf"));
             pessoa.setId(request.getParameter("id"));
+            pessoa.setSenha(request.getParameter("senha"));
+            pessoa.setEmail(request.getParameter("email"));
         }
         
         try{
+            
            dao = new PessoaDAO();
            RequestDispatcher rd = null;
            if(acao.equalsIgnoreCase("listar")){
@@ -58,7 +68,6 @@ public class PessoaController extends HttpServlet {
                rd = request.getRequestDispatcher("PesssoaController?acao=listar");
            }else if(acao.equalsIgnoreCase("obterum")){
                pessoa = dao.retornarPeloCodigo(pessoa.getCodigo());
-               HttpSession sessao = request.getSession(true);
                sessao.setAttribute("pessoa", pessoa);
                rd = request.getRequestDispatcher("PessoaController?acao=listar");
            }else if(acao.equalsIgnoreCase("alterar")){
@@ -66,9 +75,16 @@ public class PessoaController extends HttpServlet {
                rd = request.getRequestDispatcher("PessoaController?acao=listar");
            }else if(acao.equalsIgnoreCase("principal")){
                rd = request.getRequestDispatcher("principal.jsp");
+           }else if(acao.equalsIgnoreCase("autenticar")){
+               pessoa = dao.recuperarPorUsuarioSenha(pessoa);
+               if(pessoa != null){
+                    sessao.setMaxInactiveInterval(3600);
+                    sessao.setAttribute("pessoaLogada", pessoa);
+               }
+               rd = request.getRequestDispatcher("principal.jsp");
            }
            rd.forward(request, response);
-               
+
         }catch(Exception e){
             e.printStackTrace();
             throw new ServletException(e);

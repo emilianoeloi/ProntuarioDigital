@@ -209,4 +209,41 @@ public class PessoaDAO implements InterfacePessoaDAO {
         return pessoaBean;
     }
     
+    public PessoaBean recuperarPorUsuarioSenha(PessoaBean pessoa) throws PessoaDAOException{
+        
+        PessoaBean pessoaBean = null;
+            
+        try{    
+            String query = "SELECT Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, "
+                    + "Data_Nascimento_Pessoa, Senha_Pessoa FROM pessoas "
+                    + "WHERE Nome_Pessoa = ? AND Senha_Usuario = MD5(?) ";
+            this.con = getConexao();
+            this.ptmt = con.prepareStatement(query);
+            this.ptmt.setString(1, pessoa.getEmail());
+            this.ptmt.setString(2, pessoa.getSenha());
+            this.rs = this.ptmt.executeQuery();
+            
+            while(rs.next()){
+                pessoaBean = new PessoaBean();
+                pessoaBean.setCodigo(rs.getInt(1));
+                pessoaBean.setNome(rs.getString(2));
+                pessoaBean.setCpf(rs.getString(3));
+                pessoaBean.setEmail(rs.getString(4));
+                pessoaBean.setId(rs.getString(5));
+                pessoaBean.setDataNascimento(rs.getDate(6));
+                pessoaBean.setSenha(rs.getString(7));
+            }
+            
+        }catch(SQLException e){
+            throw new PessoaDAOException("Houve uma falha ao tentar recuperar "+e);
+        }finally{
+            try{
+                this.con.close();
+            }catch(SQLException e){
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
+            }
+        } 
+        return pessoaBean;
+    }
+    
 }

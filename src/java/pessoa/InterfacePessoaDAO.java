@@ -26,4 +26,6 @@ public interface InterfacePessoaDAO {
     
     public PessoaBean retornarPeloCodigo(Integer codigo) throws PessoaDAOException;
     
+    public PessoaBean recuperarPorUsuarioSenha(PessoaBean pessoa) throws PessoaDAOException;
+    
 }

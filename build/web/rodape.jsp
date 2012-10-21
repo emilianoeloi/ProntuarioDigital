@@ -1,15 +1,11 @@
-        </div><!--/row-->      
-        <hr>
+      <hr>
 
       <footer>
         <p>2012/2 - Projeto Aplicado - Análise e desenvolvimento de sistemas - 3 Período - Instituto UNATEC de Tecnologia </p>
       </footer>
 
-    </div><!--/.fluid-container-->
+    </div> <!-- /container -->
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap-transition.js"></script>
     <script src="js/bootstrap-alert.js"></script>

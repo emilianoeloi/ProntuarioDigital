@@ -2,10 +2,10 @@
 <jsp:include page="cabecalho.jsp" flush="true">
     <jsp:param name="login" value="generico" />
 </jsp:include>
-<jsp:useBean id="cirurgia" scope="session" class="cirurgia.CirurgiaDAO" />
+<!--jsp:useBean id="cirurgia" scope="session" class="cirurgia.CirurgiaDAO" /-->
 
 <%
-    String codigo = cirurgia.ultimoRegistro();
+    ///String codigo = cirurgia.ultimoRegistro();
 %>
 <html>
     <head>
@@ -29,7 +29,7 @@
                     <fieldset>
                         <legend>Cadastro de Cirurgia</legend>
                                 <label>Código<br />
-                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" readonly="readonly" value="<%= codigo %>">	
+                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" readonly="readonly" value="">	
                                 </label>
                                 
                                 <label> Nome Cirurgia <br>
@@ -39,7 +39,11 @@
                                     <input type="text" id="crm" name="crm" class="input-xxlarge">	
                                 </label>
 				<label>CPF Paciente<br />
-                                    <input type="text" id="cpf" name="cpf" class="input-xxlarge">	
+                                    <!--input type="text" id="cpf" name="cpf" class="input-xxlarge"-->
+                                    <select>
+                                        <option value="1">Emiliano</option>
+                                        <option value="2">Marlon</option>
+                                    </select>
                                 </label>
                                 <label>Data Cirurgia<br />
                                     <input type="text" id="data" name="data" class="input-xxlarge">	
