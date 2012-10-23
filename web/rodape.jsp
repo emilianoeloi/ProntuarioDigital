@@ -1,4 +1,5 @@
-      <hr>
+<br clear="all" />
+<hr>
 
       <footer>
         <p>2012/2 - Projeto Aplicado - Análise e desenvolvimento de sistemas - 3 Período - Instituto UNATEC de Tecnologia </p>

@@ -32,23 +32,47 @@ public class PessoaDAO implements InterfacePessoaDAO {
             throw new PessoaDAOException("Erro"+e.getMessage());
         }
     }
+    
+    private void obterProximoCodigo(PessoaBean pessoa) throws PessoaDAOException{
+        try{
+            String query = "SELECT NEXTVAL('pessoas_codigo_pessoa_seq') AS codigo";
+            this.con = getConexao();
+            this.ptmt = con.prepareStatement(query);
+            this.rs = this.ptmt.executeQuery();
+            
+            while(rs.next()){
+                pessoa.setCodigo(rs.getInt(1));
+            }
+        }catch(SQLException e){
+            throw new PessoaDAOException("Houve uma falha na recuperacao do proximo codigo"+e);
+        }finally{
+            try{
+                this.con.close();
+            }catch(SQLException e){
+                throw new PessoaDAOException("Fala ao tentar fechar a conexão"+e);
+            }
+        }
+    }
 
     public void cadastrar(PessoaBean pessoaBean) throws PessoaDAOException{
         
         if(pessoaBean == null)
             throw new PessoaDAOException("O objeto passado não pode ser nulo.");
         
+        this.obterProximoCodigo(pessoaBean);
+        
         try{
-            String query = "INSERT INTO pessoas (Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, Data_Nascimento_Pessoa, Senha_Pessoa) "
-                          +"VALUES (?,?,?,?,?,?)";
+            String query = "INSERT INTO pessoas (Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, Data_Nascimento_Pessoa, Senha_Pessoa) "
+                          +"VALUES (?,?,?,?,?,?,MD5(?))";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setString(1, pessoaBean.getNome());
-            this.ptmt.setString(2, pessoaBean.getCpf());
-            this.ptmt.setString(3, pessoaBean.getEmail());
-            this.ptmt.setString(4, pessoaBean.getId());
-            this.ptmt.setDate(5, pessoaBean.getDataNascimento());
-            this.ptmt.setString(6, pessoaBean.getSenha());
+            this.ptmt.setInt(1, pessoaBean.getCodigo());
+            this.ptmt.setString(2, pessoaBean.getNome());
+            this.ptmt.setString(3, pessoaBean.getCpf());
+            this.ptmt.setString(4, pessoaBean.getEmail());
+            this.ptmt.setString(5, pessoaBean.getId());
+            this.ptmt.setDate(6, pessoaBean.getDataNascimento());
+            this.ptmt.setString(7, pessoaBean.getSenha());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
             throw new PessoaDAOException("Houve uma falha no cadastro"+e);
@@ -216,7 +240,7 @@ public class PessoaDAO implements InterfacePessoaDAO {
         try{    
             String query = "SELECT Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, "
                     + "Data_Nascimento_Pessoa, Senha_Pessoa FROM pessoas "
-                    + "WHERE Nome_Pessoa = ? AND Senha_Usuario = MD5(?) ";
+                    + "WHERE Email_Pessoa = ? AND Senha_Pessoa = MD5(?) ";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
             this.ptmt.setString(1, pessoa.getEmail());

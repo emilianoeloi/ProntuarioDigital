@@ -6,8 +6,9 @@
         import="pessoa.*" %>
 <%
     HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
     try{
-        PessoaBean pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
     }catch(Exception exc){
         response.sendError(403, "Você não tem permissão!");
     }
@@ -28,10 +29,10 @@
             <link href="css/bootstrap-responsive.css" rel="stylesheet">
             
             <link rel="shortcut icon" href="ico/favicon.ico">
-            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
-            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
-            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
-            <link rel="apple-touch-icon-precomposed" href=ico/apple-touch-icon-57-precomposed.png">
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/sanus-144.png">
+            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/sanus-114.png">
+            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/sanus-72.png">
+            <link rel="apple-touch-icon-precomposed" href="ico/sanus-57.png">
             
             <title>Prontuário Digital</title>
 	</head>
@@ -56,21 +57,39 @@
               
             </ul>
             <ul class="nav pull-right">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Entrar <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li class="nav-header"><i class="icon-user"></i>Autenticação</li>
-                  <li class="nav-header">
-                      <form class="navbar-form pull-right" style="text-align:center">
-                        <input class="span2" type="text" id="pessoa-email" placeholder="E-mail">
-                        <input class="span2" type="password" id="pessoa-senha" placeholder="Senha">
-                        <button type="submit" class="btn btn-primary">Entrar</button>
-                      </form>
-                      
-                  </li>
-                  <li class="" style="text-align:center; cursor: pointer">Esqueci minha senha</li>
-                </ul>
-              </li>
+              <%if(pessoa == null){%>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Entrar <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      <li class="nav-header"><i class="icon-user"></i>Autenticação</li>
+                    <li class="nav-header">
+                        <form class="navbar-form pull-right" style="text-align:center" action="PessoaController" method="post">
+                            <input type="hidden" id="acao" name="acao" value="autenticar" />
+                          <input class="span2" type="text" id="email" name="email" placeholder="E-mail" />
+                          <input class="span2" type="password" id="senha" name="senha" placeholder="Senha" />
+                          <button type="submit" class="btn btn-primary">Entrar</button>
+                        </form>
+
+                    </li>
+                    <li class="" style="text-align:center; cursor: pointer">Esqueci minha senha</li>
+                  </ul>
+                </li>
+              <%}else{%>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=pessoa.getNome()%> <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      <li class="nav-header"><i class="icon-user"></i>Autenticado</li>
+                    <li class="nav-header">
+                        <p><%=pessoa.getNome()%></p>
+                        <form class="navbar-form pull-right" style="text-align:center" action="PessoaController" method="post">
+                            <input type="hidden" id="acao" name="acao" value="sair" />
+                          <button type="submit" class="btn btn-warning">Sair</button>
+                        </form>
+
+                    </li>
+                  </ul>
+                </li>
+              <%}%>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

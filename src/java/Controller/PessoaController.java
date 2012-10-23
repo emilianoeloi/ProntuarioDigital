@@ -82,6 +82,13 @@ public class PessoaController extends HttpServlet {
                     sessao.setAttribute("pessoaLogada", pessoa);
                }
                rd = request.getRequestDispatcher("principal.jsp");
+           }else if(acao.equalsIgnoreCase("sair")){
+               sessao.invalidate();
+               rd = request.getRequestDispatcher("index.jsp");
+           }else if(acao.equalsIgnoreCase("primeiro-cadastro")){
+               dao.cadastrar(pessoa);
+               sessao.setAttribute("pessoaPrimeiroCadastro", pessoa);
+               rd = request.getRequestDispatcher("cadastro-completo.jsp");
            }
            rd.forward(request, response);
 
