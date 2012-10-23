@@ -3,7 +3,7 @@
     Created on : Oct 21, 2012, 1:29:51 PM
     Author     : emilianoeloi
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <!-- CABECALHO -->
 <jsp:include page="cabecalho.jsp" flush="true">
     <jsp:param name="pagina" value="info" />
@@ -12,7 +12,7 @@
 <!-- CONTEUDO -->
                    <div class="row">
             <div class="span12">
-      <h1>Informações</h1>
+      <h1>Informa��es</h1>
       <p>O objetivo do nosso Sistema é centralizar informações sobre o histórico de saúde do paciente e permitir o acompanhamento por qualquer médico.
 O Prontuário Digital armazenará informações úteis para o procedimento de atendi-mento, pois, disponibiliza dados como tipo sanguíneo do paciente, alergias, cirurgi-as dentre outras informações relevantes.
 </p>

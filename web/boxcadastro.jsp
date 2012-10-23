@@ -22,7 +22,7 @@
             <input type="password" id="senha" name="senha" />
         </label>
         <div style="text-align: right">
-        <input type="submit" value="Inicar cadastro..." class="btn btn-primary" />
+        <input type="submit" value="Iniciar cadastro..." class="btn btn-primary" />
         </div>
     </form>
 </div>

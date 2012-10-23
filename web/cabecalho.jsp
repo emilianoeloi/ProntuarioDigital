@@ -9,6 +9,7 @@
     PessoaBean pessoa = null;
     try{
         pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+
     }catch(Exception exc){
         response.sendError(403, "Você não tem permissão!");
     }
@@ -34,7 +35,7 @@
             <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/sanus-72.png">
             <link rel="apple-touch-icon-precomposed" href="ico/sanus-57.png">
             
-            <title>Prontuário Digital</title>
+            <title>Sanus</title>
 	</head>
 
 
@@ -48,12 +49,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-            <a class="brand" href="index.jsp"> Prontuário Digital </a>
+            <a style="color: #fff" class="brand" href="<% if(pessoa == null) { %> index.jsp <%}else{%>principal.jsp<%}%>"> Sanus </a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-                <li <% if(request.getParameter("pagina").equalsIgnoreCase("home")) { %> class="active" <% } %> ><a href="index.jsp">Home</a></li>
-              <li <% if(request.getParameter("pagina").equalsIgnoreCase("contato")) { %> class="active" <% } %> ><a href="contato.jsp">Contato</a></li>
-              <li <% if(request.getParameter("pagina").equalsIgnoreCase("info")) { %> class="active" <% } %> ><a href="informacoes.jsp">Info</a></li>
+                <li <% if(request.getParameter("pagina").equalsIgnoreCase("home")) { %> class="active" <% } %> >
+                  <a style="color: #fff" href="<% if(pessoa == null) { %> index.jsp <%}else{%>principal.jsp<%}%>">Home</a>
+                </li>
+              <li <% if(request.getParameter("pagina").equalsIgnoreCase("contato")) { %> class="active" <% } %> ><a style="color: #fff" href="contato.jsp">Contato</a></li>
+              <li <% if(request.getParameter("pagina").equalsIgnoreCase("info")) { %> class="active" <% } %> ><a style="color: #fff" href="informacoes.jsp">Info</a></li>
               
             </ul>
             <ul class="nav pull-right">
@@ -76,7 +79,7 @@
                 </li>
               <%}else{%>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=pessoa.getNome()%> <b class="caret"></b></a>
+                  <a style="color: #fff" href="#" class="dropdown-toggle" data-toggle="dropdown"><%=pessoa.getNome()%> <b class="caret"></b></a>
                   <ul class="dropdown-menu">
                       <li class="nav-header"><i class="icon-user"></i>Autenticado</li>
                     <li class="nav-header">
@@ -97,4 +100,3 @@
     </div>
 
     <div class="container">
-                             

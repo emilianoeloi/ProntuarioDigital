@@ -3,7 +3,7 @@
     Created on : Oct 21, 2012, 1:29:51 PM
     Author     : emilianoeloi
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 
 <!-- CABECALHO -->
 <jsp:include page="cabecalho.jsp" flush="true">
@@ -14,11 +14,16 @@
 
   <!-- Main hero unit for a primary marketing message or call to action -->
   <div class="hero-unit">
-    <h1>Prontu√°rio Digital</h1>
-    <p>O objetivo do nosso Sistema √© centralizar informa√ß√µes sobre o hist√≥rico de sa√∫de do paciente e permitir o acompanhamento por qualquer m√©dico.
-O Prontu√°rio Digital armazenar√° informa√ß√µes √∫teis para o procedimento de atendi-mento, pois, disponibiliza dados como tipo sangu√≠neo do paciente, alergias, cirurgi-as dentre outras informa√ß√µes relevantes.</p>
+    <h1>Sanus - Prontu·rio Digital</h1>
+    <p>O objetivo do nosso Sistema È centralizar informaÁıes sobre o histÛrico de sa˙de do paciente e permitir o acompanhamento por qualquer mÈdico.
+O Prontu·rio Digital armazenar· informaÁıes ˙teis para o procedimento de atendi-mento, pois, disponibiliza dados como tipo sangu√≠neo do paciente, alergias, cirurgi-as dentre outras informa√ß√µes relevantes.</p>
     <p><a class="btn btn-primary btn-large" href="informacoes.jsp">Saiba mais &raquo;</a></p>
   </div>
+
+         <!-- BOX CADASTRO -->
+       <jsp:include page="boxcadastro.jsp" flush="true">
+            <jsp:param name="pagina" value="info" />
+        </jsp:include>
 
   <!-- Example row of columns -->
   <div class="row">

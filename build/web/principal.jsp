@@ -34,10 +34,17 @@
 <jsp:include page="cabecalho.jsp" flush="true">
     <jsp:param name="pagina" value="principal" />
 </jsp:include>
+
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>    
     
-        <div class="span9" style="min-height: 300px">
-            <h1>Sistema</h1>
-        </div><!--/span-->
+    <div class="span9" style="min-height: 300px">
+        <h1>Sistema</h1>
+    </div><!--/span-->
+</div>        
 
 <jsp:include page="rodape.jsp" flush="true">
     <jsp:param name="login" value="generico" />
