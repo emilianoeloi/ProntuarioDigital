@@ -5,6 +5,18 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<script src="../lib/jquery-1.7.2.js" type="text/javascript"></script>
+<script src="../jquery.validate.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+$().ready(function() {
+	
+	$("#commentForm").validate();
+
+
+});
+</script>
 
 <jsp:include page="cabecalho.jsp" flush="true">
     <jsp:param name="pagina" value="contato" />
@@ -12,16 +24,16 @@
 <div class="row">
     <div class="span7">
     <h1>Contato</h1>
-    <form class="form-horizontal">
+    <form class="form-horizontal" id="commentForm">
     <fieldset>
 
         <legend>Entre em contato conosco para saber mais detalhes...</legend>
         <div class="control-group">
-            <label class="control-label" for="home-contato-nome">
+            <label class="control-label" for="home-contato-nome" onSubmit="return validaDados(this)">
                 Nome: 
             </label>  
             <div class="controls">    
-                <input type="text" class="input-xlarge" placeholder="Digite seu nome…" id="home-contato-nome">
+                <input type="text" class="input-xlarge" placeholder="Digite seu nome…" id="home-contato-nome" required />
             </div>
         </div>  
         <div class="control-group">
@@ -29,7 +41,7 @@
                 E-mail:
             </label>
             <div class="controls"> 
-                <input type="text" class="input-xlarge" placeholder="Digite seu e-mail…" id="home-contato-email"/>
+                <input type="text" class="input-xlarge" placeholder="Digite seu e-mail…" id="home-contato-email" required />
             </div>
         </div>
         <div class="control-group">
@@ -37,7 +49,7 @@
                 Assunto:
             </label>
             <div class="controls">
-                <input type="text" class="input-xlarge" placeholder="Digite o assunto do seu contato…"/>
+                <input type="text" class="input-xlarge" placeholder="Digite o assunto do seu contato…" required/>
             </div>
         </div>
         <div class="control-group">
@@ -45,7 +57,7 @@
             Texto:
             </label>
             <div class="controls">
-                <textarea class="input-xlarge" id="home-contato-texto"></textarea>
+                <textarea class="input-xlarge" id="home-contato-texto" required></textarea>
             </div>
         </div>
         <div class="control-group">
@@ -56,6 +68,11 @@
     </fieldset>
     </form>    
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>	
+		<script src="js/bootstrap.js"> </script>
+                
+  
+    
        <!-- BOX CADASTRO -->
        <jsp:include page="boxcadastro.jsp" flush="true">
             <jsp:param name="pagina" value="info" />
