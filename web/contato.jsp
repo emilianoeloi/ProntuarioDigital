@@ -5,19 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="../lib/jquery-1.7.2.js" type="text/javascript"></script>
-<script src="../jquery.validate.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-
-$().ready(function() {
-	
-	$("#commentForm").validate();
-
-
-});
-</script>
-
 <jsp:include page="cabecalho.jsp" flush="true">
     <jsp:param name="pagina" value="contato" />
 </jsp:include>
@@ -68,15 +55,17 @@ $().ready(function() {
     </fieldset>
     </form>    
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>	
-		<script src="js/bootstrap.js"> </script>
-                
-  
     
        <!-- BOX CADASTRO -->
        <jsp:include page="boxcadastro.jsp" flush="true">
             <jsp:param name="pagina" value="info" />
         </jsp:include>
+    <script type="text/javascript">
+
+    $().ready(function() {
+            $("#commentForm").validate();
+    });
+    </script>        
 </div>
 <jsp:include page="rodape.jsp" flush="true">
     <jsp:param name="login" value="generico" />
