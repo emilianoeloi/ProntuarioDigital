@@ -9,11 +9,11 @@
 <div class="well sidebar-nav">
     <ul class="nav nav-list">
       <li class="nav-header">Administrador</li>
-      <li><a href="hospitalForm.jsp">Hospitais</a></li>
-      <li><a href="pessoaLista.jsp">Pessoas</a></li>
-      <li><a href="#">M&eacute;dicos</a></li>
-      <li><a href="#">Pacientes</a></li>
-      <li><a href="RestricaoControl?cmd=ret">Restri&ccedil;&otilde;es</a></li>
+      <li><a href="HospitalController">Hospitais</a></li>
+      <li><a href="PessoaController">Pessoas</a></li>
+      <li><a href="MedicoController">M&eacute;dicos</a></li>
+      <li><a href="PacienteController">Pacientes</a></li>
+      <li><a href="RestricaoController">Restri&ccedil;&otilde;es</a></li>
       
       <li class="nav-header">M&eacute;dico</li>
       <li><a href="#">Dados pessoais</a></li>

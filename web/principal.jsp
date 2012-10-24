@@ -2,34 +2,19 @@
         import="javax.servlet.http.Cookie"
         import="javax.servlet.http.HttpSession"
         import="java.text.SimpleDateFormat"
-        import="java.util.Date" %>
+        import="java.util.Date" 
+        import="pessoa.*" %>
 <%
-
-    /// Recuperar Dados de Acesso
-    Cookie ckUsuario = null;
-    String txUsuario = "";
-    Cookie listaCookies[] = request.getCookies();   
-    if(listaCookies != null){
-        for(int i=0; i < listaCookies.length; i++){
-            if(listaCookies[i].getName().equals("usuario")){
-               ckUsuario = listaCookies[i]; 
-               txUsuario = ckUsuario.getValue();
-               break;
-            }
-        }
-
-    }
-
-
-    /// Recuperando acesso da Sessão
     HttpSession sessao = request.getSession();
-    String seUsuario = (String)sessao.getAttribute("usuario");
-    String dataLogin = "";
-    if(seUsuario != null){
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yy - HH:mm:ss");
-        dataLogin = formato.format(new Date(sessao.getCreationTime()));
-    }
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
 
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
 %>
 <jsp:include page="cabecalho.jsp" flush="true">
     <jsp:param name="pagina" value="principal" />

@@ -45,6 +45,8 @@ public class PessoaController extends HttpServlet {
         
         
         if(acao != null || !acao.equalsIgnoreCase("lista")){
+            if(request.getParameter("codigo") != null)
+                pessoa.setCodigo(Integer.parseInt(request.getParameter("codigo")));
             pessoa.setNome(request.getParameter("nome"));
             pessoa.setCpf(request.getParameter("cpf"));
             pessoa.setId(request.getParameter("id"));
@@ -68,8 +70,8 @@ public class PessoaController extends HttpServlet {
                rd = request.getRequestDispatcher("PesssoaController?acao=listar");
            }else if(acao.equalsIgnoreCase("obterum")){
                pessoa = dao.retornarPeloCodigo(pessoa.getCodigo());
-               sessao.setAttribute("pessoa", pessoa);
-               rd = request.getRequestDispatcher("PessoaController?acao=listar");
+               request.setAttribute("pessoaSelecionada", pessoa);
+               rd = request.getRequestDispatcher("PessoaController?acao=formulario");
            }else if(acao.equalsIgnoreCase("alterar")){
                dao.alterar(pessoa);
                rd = request.getRequestDispatcher("PessoaController?acao=listar");
@@ -87,8 +89,10 @@ public class PessoaController extends HttpServlet {
                rd = request.getRequestDispatcher("index.jsp");
            }else if(acao.equalsIgnoreCase("primeiro-cadastro")){
                dao.cadastrar(pessoa);
-               sessao.setAttribute("pessoaPrimeiroCadastro", pessoa);
+               request.setAttribute("pessoaPrimeiroCadastro", pessoa);
                rd = request.getRequestDispatcher("cadastro-completo.jsp");
+           }else if(acao.equalsIgnoreCase("formulario")){
+               rd = request.getRequestDispatcher("pessoaForm.jsp");
            }
            rd.forward(request, response);
 

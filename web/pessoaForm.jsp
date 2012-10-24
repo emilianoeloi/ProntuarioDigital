@@ -1,38 +1,70 @@
-<!-- incluindo o cabecalho -->
+<%@page info="Cadastro de hospitais" contentType="text/html" errorPage="erro.jsp" pageEncoding="ISO-8859-1" 
+        import="javax.servlet.http.Cookie"
+        import="javax.servlet.http.HttpSession"
+        import="java.text.SimpleDateFormat"
+        import="java.util.Date" 
+        import="pessoa.*"
+        import="java.util.List"
+        import="java.util.*"%>
+<%
+    HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
+
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
+%>
+
+<jsp:useBean id="pessoaSelecionada" scope="request" class="pessoa.PessoaBean"></jsp:useBean>
+
 <jsp:include page="cabecalho.jsp" flush="true">
-    <jsp:param name="login" value="generico" />
+    <jsp:param name="pagina" value="principal" />
 </jsp:include>
+
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>   
     <div class="span9">
         <h2>Pessoa</h2>
         <form class="form-pessoa" method="POST" action="PessoaController">
-        <input type="hidden" id="acao" name="acao" value="cadastrar " />
+        <input type="hidden" id="acao" name="acao" value="cadastrar" />
         <fieldset>
-            <legend>Pessoa</legend>
+            <legend><% if(pessoaSelecionada.getCodigo() == 0 ) {%> Cadastrar <%} else {%> Editar <%}%> Pessoa</legend>
                     <label>Código<br />
-                        <input readonly="readonly" type="text" id="codigo" name="codigo" class="input-xxlarge">	
+                        <input readonly="readonly" type="text" id="codigo" name="codigo" class="input-xxlarge" 
+                         value="<% if(pessoaSelecionada.getCodigo() == 0 ){ out.print(""); } else { out.print(pessoaSelecionada.getCodigo()); } %>">	
                     </label>
                     <label>Nome<br />
-                        <input type="text" id="nome" name="nome" class="input-xxlarge">	
+                        <input type="text" id="nome" name="nome" class="input-xxlarge"
+                        value="<% if(pessoaSelecionada.getCodigo() == 0 ){ out.print(""); } else { out.print(pessoaSelecionada.getNome()); } %>">
                     </label>
                     <label>CPF<br />
-                        <input type="text" id="cpf" name="cpf" class="input-xxlarge">	
+                        <input type="text" id="cpf" name="cpf" class="input-xxlarge" 
+                        value="<% if(pessoaSelecionada.getCodigo() == 0 ){ out.print(""); } else { out.print(pessoaSelecionada.getCpf()); } %>">
                     </label>
                     <label>E-mail<br />
-                        <input type="text" id="email" name="email" class="input-xxlarge">	
+                        <input type="text" id="email" name="email" class="input-xxlarge" 
+                        value="<% if(pessoaSelecionada.getCodigo() == 0 ){ out.print(""); } else { out.print(pessoaSelecionada.getEmail()); } %>">       
                     </label>
                     <label>ID<br />
-                        <input type="text" id="id" name="id" class="input-xxlarge">	
+                        <input type="text" id="id" name="id" class="input-xxlarge" value="">	
                     </label>
                     <label>Data de nascimento<br />
                         <input type="text" id="data-nascimento" name="data-nascimento" class="input-xxlarge">	
                     </label>
                     <label>Senha<br />
-                        <input type="text" id="senha" name="senha" class="input-xxlarge">	
+                        <button type="button" class="btn btn-danger" onclick="alert('Alterar a senha em desenvolvimento.')">Alterar Senha</button>	
                     </label>
 
                     <div style="text-align: center">
                     <button type="submit" class="btn btn-primary">Salvar</button>
-                    <button type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location = 'PessoaController'">Cancelar</button>
 
             </div>
         </fieldset>

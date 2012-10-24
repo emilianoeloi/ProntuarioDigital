@@ -9,6 +9,8 @@
     PessoaBean pessoa = null;
     try{
         pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
 
     }catch(Exception exc){
         response.sendError(403, "Você não tem permissão!");
@@ -57,12 +59,39 @@
                 </li>
               <li <% if(request.getParameter("pagina").equalsIgnoreCase("contato")) { %> class="active" <% } %> ><a style="color: #fff" href="contato.jsp">Contato</a></li>
               <li <% if(request.getParameter("pagina").equalsIgnoreCase("info")) { %> class="active" <% } %> ><a style="color: #fff" href="informacoes.jsp">Info</a></li>
+              <li style="color: #fff" class="dropdown">
+                  <a style="color: #fff" href="#" class="dropdown-toggle" data-toggle="dropdown">Interdisciplinaridade<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li class="nav-header">PA</li>
+                    <li><a>Metodologia</a></li>  
+                      <li class="nav-header">POO</li>
+                    <li><a>Herança</a></li>
+                    <li><a>Encapsulamento</a></li>
+                    <li><a>Polimorfismo</a></li>
+                  
+                      <li class="nav-header">BD</li>
+                    <li><a>MER</a></li>
+                    <li><a>DER</a></li>
+                    <li><a>SQL</a></li>
+
+                      <li class="nav-header">ADS</li>
+                    <li><a>Requisitos</a></li>
+                    <li><a>Diagrama de Atividade</a></li>
+                    <li><a>Diagrama de Caso de Uso</a></li>
+
+                      <li class="nav-header">WEB</li>
+                    <li><a>Server Side Language</a></li>
+                    <li><a>Client Side Language</a></li>
+                    <li><a>Usabilidade</a></li>
+                  </ul>
+                </li>
+              <li <% if(request.getParameter("pagina").equalsIgnoreCase("eixo")) { %> class="active" <% } %> ><a style="color: #fff" href="eixo.jsp">Eixo Transversal</a></li>
               
             </ul>
             <ul class="nav pull-right">
               <%if(pessoa == null){%>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Entrar <b class="caret"></b></a>
+                  <a style="color: #fff" href="#" class="dropdown-toggle" data-toggle="dropdown">Entrar <b class="caret"></b></a>
                   <ul class="dropdown-menu">
                       <li class="nav-header"><i class="icon-user"></i>Autenticação</li>
                     <li class="nav-header">

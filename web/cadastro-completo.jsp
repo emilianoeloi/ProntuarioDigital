@@ -10,7 +10,7 @@
     <jsp:param name="pagina" value="home" />
 </jsp:include>
 
-<jsp:useBean id="pessoaPrimeiroCadastro" scope="session" class="pessoa.PessoaBean" />
+<jsp:useBean id="pessoaPrimeiroCadastro" scope="request" class="pessoa.PessoaBean" />
 
   <div class="row">
       <div class="span4">

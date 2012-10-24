@@ -1,21 +1,41 @@
-<%-- 
-    Document   : pessoaLista
-    Created on : Oct 6, 2012, 2:07:10 PM
-    Author     : emilianoeloi
---%>
+<%@page info="Cadastro de hospitais" contentType="text/html" errorPage="erro.jsp" pageEncoding="ISO-8859-1" 
+        import="javax.servlet.http.Cookie"
+        import="javax.servlet.http.HttpSession"
+        import="java.text.SimpleDateFormat"
+        import="java.util.Date" 
+        import="pessoa.*"
+        import="java.util.List"
+        import="java.util.*"%>
+<%
+    HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
 
-<%@page contentType="text/html" pageEncoding="iso-8859-1"
-        import="java.util.*"
-        import="pessoa.*" %>
-<!-- incluindo o cabecalho -->
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
+%>
+
+<jsp:useBean id="pessoasList" scope="request" class="List" />
+
 <jsp:include page="cabecalho.jsp" flush="true">
-    <jsp:param name="login" value="generico" />
+    <jsp:param name="pagina" value="principal" />
 </jsp:include>
 
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>   
+
+
     <div class="span9">
-        <h2>Pessoa</h2>
+        <h2>Pessoa</h2>     
         <ul class="nav">
-            <li><a href="pessoaForm.jsp">Nova Pessoa</a></li>
+            <li><a href="PessoaController?acao=formulario">Nova Pessoa</a></li>
         </ul>
         <table class="table table-hover">
             <caption>
@@ -33,26 +53,21 @@
                 </tr>
             </thead>
             <tbody>
+<% 
+    for(Iterator i = pessoasList.iterator(); i.hasNext();) {
+        PessoaBean p = (PessoaBean)i.next(); 
+%>                
                 <tr>
-                    <td><a href="">1</a></td>
-                    <td>Emiliano</td>
-                    <td>013.1231212.312</td>
-                    <td>MG13</td>
-                    <td>@</td>
+                    <td><a href=" PessoaController?acao=obterum&codigo=<%=p.getCodigo()%> "><%=p.getCodigo()%></a></td>
+                    <td><%=p.getNome()%></td>
+                    <td><%=p.getCpf()%></td>
+                    <td><%=p.getId()%></td>
+                    <td><%=p.getEmail()%></td>
                     <td>31/05/81</td>
-                    <th><a href="">Editar</a></th>
+                    <th><a href=" PessoaController?acao=obterum&codigo=<%=p.getCodigo()%> ">Editar</a></th>
                     <th><a href="">Excluir</a></th>
                 </tr>
-                <tr>
-                    <td><a href="">2</a></td>
-                    <td>Pollyana</td>
-                    <td>013.1231212.312</td>
-                    <td>MG13</td>
-                    <td>@</td>
-                    <td>31/05/81</td>
-                    <th><a href="">Editar</a></th>
-                    <th><a href="">Excluir</a></th>
-                </tr>
+<% } %>
             </tbody>
             <tfoot>
                 <tr>
