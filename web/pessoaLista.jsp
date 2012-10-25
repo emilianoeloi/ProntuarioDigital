@@ -65,7 +65,7 @@
                     <td><%=p.getEmail()%></td>
                     <td>31/05/81</td>
                     <th><a href=" PessoaController?acao=obterum&codigo=<%=p.getCodigo()%> ">Editar</a></th>
-                    <th><a href="">Excluir</a></th>
+                    <th><a href=" PessoaController?acao=excluir&codigo=<%=p.getCodigo()%> ">Excluir</a></th>
                 </tr>
 <% } %>
             </tbody>

@@ -122,7 +122,7 @@ public class PessoaDAO implements InterfacePessoaDAO {
             throw new PessoaDAOException("O objeto passado não pode ser nulo.");
         
         try{
-            String query = "DELETE pessoas WHERE Codigo_Pessoa = ?";
+            String query = "DELETE FROM pessoas WHERE Codigo_Pessoa = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
             this.ptmt.setInt(1, pessoaBean.getCodigo());

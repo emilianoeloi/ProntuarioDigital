@@ -33,7 +33,7 @@
     <div class="span9">
         <h2>Pessoa</h2>
         <form class="form-pessoa" method="POST" action="PessoaController">
-        <input type="hidden" id="acao" name="acao" value="cadastrar" />
+        <input type="hidden" id="acao" name="acao" value="<% if(pessoaSelecionada.getCodigo() == 0 ) {%>cadastrar<%} else {%>alterar<%}%>" />
         <fieldset>
             <legend><% if(pessoaSelecionada.getCodigo() == 0 ) {%> Cadastrar <%} else {%> Editar <%}%> Pessoa</legend>
                     <label>Código<br />
@@ -59,7 +59,15 @@
                         <input type="text" id="data-nascimento" name="data-nascimento" class="input-xxlarge">	
                     </label>
                     <label>Senha<br />
-                        <button type="button" class="btn btn-danger" onclick="alert('Alterar a senha em desenvolvimento.')">Alterar Senha</button>	
+                        
+                        <% if(pessoaSelecionada.getCodigo() == 0 ) {%>
+                        <input type="password" id="senha" name="senha" class="input-xxlarge" value="">
+                    </label>
+                    <label>Confirmar senha:<br >
+                        <input type="password" id="confirmar-senha" name="confirmar-senha" class="input-xxlarge" value="">
+                    <%} else {%>
+                        <button type="button" class="btn btn-danger" onclick="alert('Alterar a senha em desenvolvimento.')">Alterar Senha</button>
+                    <%}%>                    
                     </label>
 
                     <div style="text-align: center">

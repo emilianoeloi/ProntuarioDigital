@@ -45,7 +45,8 @@ public class PessoaController extends HttpServlet {
         
         
         if(acao != null || !acao.equalsIgnoreCase("lista")){
-            if(request.getParameter("codigo") != null)
+            if( request.getParameter("codigo") != null &&
+                request.getParameter("codigo") != "" )
                 pessoa.setCodigo(Integer.parseInt(request.getParameter("codigo")));
             pessoa.setNome(request.getParameter("nome"));
             pessoa.setCpf(request.getParameter("cpf"));
@@ -64,17 +65,19 @@ public class PessoaController extends HttpServlet {
                rd = request.getRequestDispatcher("pessoaLista.jsp");
            }else if(acao.equalsIgnoreCase("cadastrar")){
                dao.cadastrar(pessoa);
-               rd = request.getRequestDispatcher("PesssoaController?acao=listar");
+               request.setAttribute("pessoaSelecionada", pessoa);
+               rd = request.getRequestDispatcher("PessoaController?acao=formulario");
            }else if(acao.equalsIgnoreCase("excluir")){
                dao.excluir(pessoa);
-               rd = request.getRequestDispatcher("PesssoaController?acao=listar");
+               rd = request.getRequestDispatcher("PessoaController?acao=listar");
            }else if(acao.equalsIgnoreCase("obterum")){
                pessoa = dao.retornarPeloCodigo(pessoa.getCodigo());
                request.setAttribute("pessoaSelecionada", pessoa);
                rd = request.getRequestDispatcher("PessoaController?acao=formulario");
            }else if(acao.equalsIgnoreCase("alterar")){
                dao.alterar(pessoa);
-               rd = request.getRequestDispatcher("PessoaController?acao=listar");
+               request.setAttribute("pessoaSelecionada", pessoa);
+               rd = request.getRequestDispatcher("PessoaController?acao=formulario");
            }else if(acao.equalsIgnoreCase("principal")){
                rd = request.getRequestDispatcher("principal.jsp");
            }else if(acao.equalsIgnoreCase("autenticar")){
