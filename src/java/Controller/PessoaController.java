@@ -96,6 +96,11 @@ public class PessoaController extends HttpServlet {
                rd = request.getRequestDispatcher("cadastro-completo.jsp");
            }else if(acao.equalsIgnoreCase("formulario")){
                rd = request.getRequestDispatcher("pessoaForm.jsp");
+           }else if(acao.equalsIgnoreCase("checklogin")){
+               pessoa = dao.procurarPeloEmail(pessoa.getEmail());
+               String existe = (pessoa == null) ? "false" : "true";
+               request.setAttribute("retorno", existe);
+               rd = request.getRequestDispatcher("pessoaAjax.jsp");
            }
            rd.forward(request, response);
 

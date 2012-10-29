@@ -28,4 +28,6 @@ public interface InterfacePessoaDAO {
     
     public PessoaBean recuperarPorUsuarioSenha(PessoaBean pessoa) throws PessoaDAOException;
     
+    public PessoaBean procurarPeloEmail(String email) throws PessoaDAOException;
+    
 }

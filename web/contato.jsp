@@ -62,8 +62,8 @@
         </jsp:include>
     <script type="text/javascript">
 
-    $().ready(function() {
-            $("#commentForm").validate();
+    $(document).ready(function() {
+        console.log('ready contato');//      $("#commentForm").validate();
     });
     </script>        
 </div>

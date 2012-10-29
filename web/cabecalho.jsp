@@ -23,10 +23,30 @@
             <meta name="description" content="Sanus">
             <meta name="author" content="Pollyana, Fernanda, Emiliano, Marlon, Mauro, Rafael, Vilmar">
             <link href="css/bootstrap.css" rel="stylesheet">
+            <script src="js/jquery.js"></script>
+            <script>
+                $(document).ready(function(){
+                    $.validator.addMethod("verifyLogin", function(value, element, params){
+                        return !eval($.ajax({
+                            type: "POST",
+                            url: "PessoaController?acao=checklogin",
+                            data: "email="+element.value,
+                            async: false,
+                            global: false
+                        }).responseText);
+                    });
+                 });
+            </script>    
             <style type="text/css">
               body {
                 padding-top: 60px;
                 padding-bottom: 40px;
+              }
+              .error{
+                  text-align: right;
+                  font-size: .7em;
+                  line-height: 7px;
+                  color:red;
               }
             </style>
             <link href="css/bootstrap-responsive.css" rel="stylesheet">
