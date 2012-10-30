@@ -1,4 +1,4 @@
-<%@page info="Cadastro de hospitais" contentType="text/html" errorPage="erro.jsp" pageEncoding="ISO-8859-1" 
+<%@page info="Cadastro de hospitais" contentType="text/html" errorPage="erro.jsp" pageEncoding="UTF-8" 
         import="javax.servlet.http.Cookie"
         import="javax.servlet.http.HttpSession"
         import="java.text.SimpleDateFormat"

@@ -23,7 +23,9 @@
             <meta name="description" content="Sanus">
             <meta name="author" content="Pollyana, Fernanda, Emiliano, Marlon, Mauro, Rafael, Vilmar">
             <link href="css/bootstrap.css" rel="stylesheet">
-            <script src="js/jquery.js"></script>
+            <link href="css/smoothness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
+            <script src="js/jquery-1.8.2.js"></script>
+            <script src="js/jquery-ui-1.9.1.custom.js"></script>
             <script>
                 $(document).ready(function(){
                     $.validator.addMethod("verifyLogin", function(value, element, params){
@@ -43,7 +45,6 @@
                 padding-bottom: 40px;
               }
               .error{
-                  text-align: right;
                   font-size: .7em;
                   line-height: 7px;
                   color:red;
@@ -80,7 +81,7 @@
               <li <% if(request.getParameter("pagina").equalsIgnoreCase("contato")) { %> class="active" <% } %> ><a style="color: #fff" href="contato.jsp">Contato</a></li>
               <li <% if(request.getParameter("pagina").equalsIgnoreCase("info")) { %> class="active" <% } %> ><a style="color: #fff" href="informacoes.jsp">Info</a></li>
               <li style="color: #fff" class="dropdown">
-                  <a style="color: #fff" href="#" class="dropdown-toggle" data-toggle="dropdown">Interdisciplinaridade<b class="caret"></b></a>
+                  <a style="color: #fff" href="#" class="dropdown-toggle" data-toggle="dropdown">Tecnologia<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li class="nav-header">PA</li>
                     <li><a>Metodologia</a></li>  
@@ -105,7 +106,7 @@
                     <li><a>Usabilidade</a></li>
                   </ul>
                 </li>
-              <li <% if(request.getParameter("pagina").equalsIgnoreCase("eixo")) { %> class="active" <% } %> ><a style="color: #fff" href="eixo.jsp">Eixo Transversal</a></li>
+              <li <% if(request.getParameter("pagina").equalsIgnoreCase("eixo")) { %> class="active" <% } %> ><a style="color: #fff" href="eixo.jsp">Saúde</a></li>
               
             </ul>
             <ul class="nav pull-right">

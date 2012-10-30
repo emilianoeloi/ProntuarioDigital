@@ -21,5 +21,11 @@
     <script src="js/bootstrap-carousel.js"></script>
     <script src="js/bootstrap-typeahead.js"></script>
     <script src="js/jquery.validate.js"></script>
+    <script src="js/jquery.maskedinput.js"></script>
+    <script>
+        $(".campo-cpf").mask("999.999.999-99");
+        $(".campo-data").mask("99/99/9999");
+        $(".campo-data").datepicker();
+    </script>
    	</body>
 </html>

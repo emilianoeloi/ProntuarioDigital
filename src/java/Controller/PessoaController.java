@@ -43,7 +43,6 @@ public class PessoaController extends HttpServlet {
         InterfacePessoaDAO dao;
         PessoaBean pessoa = new PessoaBean();
         
-        
         if(acao != null || !acao.equalsIgnoreCase("lista")){
             if( request.getParameter("codigo") != null &&
                 request.getParameter("codigo") != "" )
@@ -63,23 +62,29 @@ public class PessoaController extends HttpServlet {
                List pessoasList = dao.retornarTodos();
                request.setAttribute("pessoasList", pessoasList);
                rd = request.getRequestDispatcher("pessoaLista.jsp");
+               
            }else if(acao.equalsIgnoreCase("cadastrar")){
                dao.cadastrar(pessoa);
                request.setAttribute("pessoaSelecionada", pessoa);
                rd = request.getRequestDispatcher("PessoaController?acao=formulario");
+               
            }else if(acao.equalsIgnoreCase("excluir")){
                dao.excluir(pessoa);
                rd = request.getRequestDispatcher("PessoaController?acao=listar");
+               
            }else if(acao.equalsIgnoreCase("obterum")){
                pessoa = dao.retornarPeloCodigo(pessoa.getCodigo());
                request.setAttribute("pessoaSelecionada", pessoa);
                rd = request.getRequestDispatcher("PessoaController?acao=formulario");
+               
            }else if(acao.equalsIgnoreCase("alterar")){
                dao.alterar(pessoa);
                request.setAttribute("pessoaSelecionada", pessoa);
                rd = request.getRequestDispatcher("PessoaController?acao=formulario");
+               
            }else if(acao.equalsIgnoreCase("principal")){
                rd = request.getRequestDispatcher("principal.jsp");
+               
            }else if(acao.equalsIgnoreCase("autenticar")){
                pessoa = dao.recuperarPorUsuarioSenha(pessoa);
                if(pessoa != null){
@@ -87,15 +92,26 @@ public class PessoaController extends HttpServlet {
                     sessao.setAttribute("pessoaLogada", pessoa);
                }
                rd = request.getRequestDispatcher("principal.jsp");
+               
            }else if(acao.equalsIgnoreCase("sair")){
                sessao.invalidate();
                rd = request.getRequestDispatcher("index.jsp");
+               
            }else if(acao.equalsIgnoreCase("primeiro-cadastro")){
                dao.cadastrar(pessoa);
                request.setAttribute("pessoaPrimeiroCadastro", pessoa);
-               rd = request.getRequestDispatcher("cadastro-completo.jsp");
+               request.setAttribute("perfil", "pessoa");
+               rd = request.getRequestDispatcher("escolher-perfil.jsp");
+               
+           }else if(acao.equalsIgnoreCase("escolherperfil")){
+               request.setAttribute("pessoaPrimeiroCadastro", pessoa);
+               String perfil = request.getParameter("perfil");
+               request.setAttribute("perfil", perfil);
+               rd = request.getRequestDispatcher("escolher-perfil.jsp");
+               
            }else if(acao.equalsIgnoreCase("formulario")){
                rd = request.getRequestDispatcher("pessoaForm.jsp");
+               
            }else if(acao.equalsIgnoreCase("checklogin")){
                pessoa = dao.procurarPeloEmail(pessoa.getEmail());
                String existe = (pessoa == null) ? "false" : "true";
