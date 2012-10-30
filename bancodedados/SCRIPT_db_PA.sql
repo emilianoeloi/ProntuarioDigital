@@ -1,31 +1,28 @@
+﻿-- DROP TABLE Pacientes
+-- DROP TABLE Medicos
+-- DROP TABLE Pessoas
 CREATE TABLE Pessoas
-	(
-	Codigo_Pessoa			SERIAL NOT NULL,
-	Nome_Pessoa			VARCHAR(40) NOT NULL,
-	ID						VARCHAR(10)			,
-	CPF						VARCHAR(10)			,
-	Data_Nascimento			DATE				,
-	Email					VARCHAR(10)	NOT NULL,
-	Senha					VARCHAR(10) NOT NULL,
-	PRIMARY KEY(Codigo_Pessoa)
-	);
+(
+	Codigo_Pessoa	SERIAL PRIMARY KEY,
+	Nome_Pessoa	VARCHAR(40) NOT NULL,
+	ID_Pessoa	VARCHAR(10),
+	CPF_Pessoa	CHAR(11) UNIQUE,
+	Data_Nascimento_Pessoa	DATE,
+	Email_Pessoa	VARCHAR(80) NOT NULL UNIQUE,
+	Senha_Pessoa	VARCHAR(100) NOT NULL,
+	Data_Cadastro_Pessoa DATE DEFAULT CURRENT_TIMESTAMP
+);
 				
-CREATE TABLE Pacientes
-	(
-	Codigo_Paciente			SERIAL NOT NULL,
-	Codigo_Pessoa			INT NOT NULL,
-	PRIMARY KEY(Codigo_Paciente),
-	FOREIGN KEY(Codigo_Pessoa) REFERENCES Pessoas(Codigo_Pessoa)
-	);
+CREATE TABLE Pacientes(
+	Codigo_Paciente	SERIAL PRIMARY KEY,
+	Codigo_Pessoa	INT REFERENCES Pessoas(Codigo_Pessoa)
+);
 
-CREATE TABLE Medicos
-	(
-	Codigo_Medico			SERIAL NOT NULL,
-	Codigo_Pessoa			INT NOT NULL,
-	CRM						VARCHAR(10) NOT NULL,
-	PRIMARY KEY(Codigo_Medico),
-	FOREIGN KEY(Codigo_Medico) REFERENCES Pessoas(Codigo_Pessoa)
-	);
+CREATE TABLE Medicos(
+	Codigo_Medico	SERIAL PRIMARY KEY,
+	Codigo_Pessoa	INT REFERENCES Pessoas(Codigo_Pessoa),
+	CRM_Medico 	VARCHAR(10) NOT NULL UNIQUE
+);
 
 CREATE TABLE Cirurgias
 	(
