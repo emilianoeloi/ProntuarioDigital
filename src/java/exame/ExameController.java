@@ -6,6 +6,7 @@ package exame;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,11 +40,15 @@ public class ExameController extends HttpServlet {
         String acao = request.getParameter("acao");
         
         if (acao == null){
-            acao = "lista";
+            acao = "listar";
         }
         
                 
         if(acao != null){
+           if (request.getParameter("codigo") != null && request.getParameter("codigo") !="" ){
+               exame.setCodigo(Integer.parseInt(request.getParameter("codigo"))); 
+           }
+           
            exame.setNome(request.getParameter("nome"));
            exame.setDescricao(request.getParameter("desc"));
         }
@@ -55,10 +60,28 @@ public class ExameController extends HttpServlet {
                request.setAttribute("exameSelecionado", exame);
                rd = request.getRequestDispatcher("exameForm.jsp");
                
+           } else if(acao.equalsIgnoreCase("listar")) {
+               List exameList = dao.retornarTodos();
+               request.setAttribute("exameList", exameList);
+               rd = request.getRequestDispatcher("exameLista.jsp");
+                              
+           } else if (acao.equalsIgnoreCase("excluir")){
+               dao.excluir(exame);
+               rd = request.getRequestDispatcher("ExameController?acao=listar");
+           
+           } else if (acao.equalsIgnoreCase("obterum")){
+            
+               exame = dao.retornarPeloCodigo(exame.getCodigo());
+               request.setAttribute("exameSelecionado", exame);
+               rd = request.getRequestDispatcher("ExameController?acao=formulario");
+
            } else if(acao.equalsIgnoreCase("Formulario")) {
                rd = request.getRequestDispatcher("exameForm.jsp");
+           
            } else if (acao.equalsIgnoreCase("alterar")){
-               
+               dao.alterar(exame);
+               request.setAttribute("exameSelecionado", exame);
+               rd = request.getRequestDispatcher("ExameController?acao=formulario");
            }
            rd.forward(request, response);
         } catch (Exception e) {            

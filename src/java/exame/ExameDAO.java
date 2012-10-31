@@ -63,6 +63,7 @@ public class ExameDAO {
         }
     }
     
+   
     
     public void cadastrar(ExameBean exameBean){
         try{
@@ -94,7 +95,7 @@ public class ExameDAO {
     
     public void alterar(ExameBean exameBean){
         try{
-            String query = "UPDATE exame SET Nome_exame = ?, Descricao_exame = ? WHERE Codigo_exame = ?";
+            String query = "UPDATE exames SET Nome_exame = ?, Descricao_exame = ? WHERE Codigo_exame = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
             this.ptmt.setString(1, exameBean.getNome());
@@ -120,12 +121,12 @@ public class ExameDAO {
         } 
     }
     
-    public void excluir(Integer codigo){
+    public void excluir(ExameBean examebean){ //Integer codigo
         try{
-            String query = "DELETE exames WHERE Codigo_exame = ?";
+            String query = "DELETE from exames WHERE Codigo_exame = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setInt(1, codigo);
+            this.ptmt.setInt(1, examebean.getCodigo());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -147,7 +148,7 @@ public class ExameDAO {
     
     public List retornarTodos(){
         
-        List hospitais = new ArrayList();
+        List exame = new ArrayList();
         ExameBean exameBean = null;
             
         try{    
@@ -161,7 +162,7 @@ public class ExameDAO {
                 exameBean.setCodigo(rs.getInt(1));
                 exameBean.setNome(rs.getString(2));
                 exameBean.setDescricao(rs.getString(3));
-                hospitais.add(exameBean);
+                exame.add(exameBean);
             }
             
         }catch(SQLException e){
@@ -180,7 +181,7 @@ public class ExameDAO {
                 e.printStackTrace();
             }
         }
-        return hospitais;
+        return exame;
     }
     
     public ExameBean retornarPeloCodigo(Integer codigo){

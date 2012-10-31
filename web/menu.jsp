@@ -18,7 +18,7 @@
       <li class="nav-header">M&eacute;dico</li>
       <li><a href="#">Dados pessoais</a></li>
       <li><a href="CirurgiaControl?cmd=ret">Cirurgias</a></li>
-      <li><a href="ExameController?acao=Formulario">Exames</a></li>
+      <li><a href="ExameController">Exames</a></li> <!--?acao=Formulario-->
       <li><a href="#">Receitas</a></li>
       <li class="nav-header">Paciente</li>
       <li><a href="CirurgiaControl?cmd=listar">Cirurgias</a></li>
