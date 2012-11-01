@@ -20,6 +20,7 @@ public class PessoaBean implements Serializable {
     private String id;
     private Date dataNascimento;
     private String senha;
+    private int status;
     
     public int getCodigo() {
         return codigo;
@@ -30,7 +31,7 @@ public class PessoaBean implements Serializable {
     }
 
     public String getCpf() {
-        return cpf;
+        return (this.cpf == null)?null:cpf.replace(".", "").replace("-", "");
     }
 
     public String getEmail() {
@@ -47,6 +48,10 @@ public class PessoaBean implements Serializable {
 
     public String getSenha() {
         return senha;
+    }
+    
+    public int getStatus(){
+        return this.status;
     }
 
     public void setCodigo(int codigo) {
@@ -77,5 +82,8 @@ public class PessoaBean implements Serializable {
         this.senha = senha;
     }
     
+    public void setStatus(int status){
+        this.status = status;
+    }
     
 }

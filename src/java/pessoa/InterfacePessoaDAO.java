@@ -5,7 +5,8 @@
 package pessoa;
 
 import java.util.List;
-
+import dao.*;
+import java.sql.SQLException;
 
 
 /**
@@ -14,20 +15,20 @@ import java.util.List;
  */
 public interface InterfacePessoaDAO {
     
-    public void cadastrar(PessoaBean pessoaBean) throws PessoaDAOException;
+    public void cadastrar(PessoaBean pessoaBean) throws SQLException;
     
-    public void alterar(PessoaBean pessoaBean) throws PessoaDAOException;
+    public void alterar(PessoaBean pessoaBean) throws SQLException;
     
-    public void excluir(PessoaBean pessoaBean) throws PessoaDAOException;
+    public void excluir(PessoaBean pessoaBean) throws SQLException;
     
-    public boolean existePessoaPeloCodigo(Integer codigo) throws PessoaDAOException;
+    public boolean existePeloCodigo(Integer codigo) throws SQLException;
     
-    public List retornarTodos() throws PessoaDAOException;
+    public List retornarTodos() throws SQLException;
     
-    public PessoaBean retornarPeloCodigo(Integer codigo) throws PessoaDAOException;
+    public PessoaBean retornarPeloCodigo(Integer codigo) throws SQLException;
     
-    public PessoaBean recuperarPorUsuarioSenha(PessoaBean pessoa) throws PessoaDAOException;
+    public PessoaBean recuperarPorUsuarioSenha(PessoaBean pessoa) throws SQLException;
     
-    public PessoaBean procurarPeloEmail(String email) throws PessoaDAOException;
+    public PessoaBean procurarPeloEmail(String email) throws SQLException;
     
 }

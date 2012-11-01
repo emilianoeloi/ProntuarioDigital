@@ -19,7 +19,7 @@ public class MedicoBean extends PessoaBean {
     private String Crm;
 
     public String getCrm() {
-        return Crm;
+        return this.Crm;
     }
 
     public void setCrm(String Crm) {

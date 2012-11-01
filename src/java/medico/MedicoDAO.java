@@ -18,9 +18,9 @@ import dao.*;
  *
  * @author emilianoeloi
  */
-public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
+public class MedicoDAO extends GenericDAO implements InterfacePessoaDAO {
     
-    public PessoaDAO(){
+    public MedicoDAO(){
         super();
     }
     
@@ -34,8 +34,6 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             }
         }catch(GenericDAOException e){
             throw new GenericDAOException("Houve uma falha na recuperacao do proximo codigo"+e);
-        }finally{
-            super.fecharConexao();
         }
     }
 
@@ -62,8 +60,6 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             
         }catch(GenericDAOException e){
             throw new GenericDAOException("Houve uma falha no cadastro"+e);
-        }finally{
-            super.fecharConexao();
         }
     }
     
@@ -123,8 +119,6 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             
         }catch(SQLException e){
             throw new SQLException("Houve uma falha na Recuperação "+e);
-        }finally{
-            super.fecharConexao();
         }
         return false;
     }
@@ -153,8 +147,6 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             
         }catch(GenericDAOException e){
             throw new GenericDAOException("Houve uma falha ao tentar recupear uma lista de Pessoas "+e);
-        }finally{
-            super.fecharConexao();
         }
         return pessoas;
     }
@@ -185,8 +177,6 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             
         }catch(GenericDAOException e){
             throw new GenericDAOException("Houve uma falha ao tentar recuperar "+e);
-        }finally{
-            super.fecharConexao();
         }
         return pessoa;
     }
@@ -217,8 +207,6 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             
         }catch(GenericDAOException e){
             throw new GenericDAOException("Houve uma falha ao tentar recuperar "+e);
-        }finally{
-            super.fecharConexao();
         }
         return pessoa;
     }
