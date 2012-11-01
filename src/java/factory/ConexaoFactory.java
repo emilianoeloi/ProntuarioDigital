@@ -14,9 +14,9 @@ import java.sql.SQLException;
  */
 public class ConexaoFactory {
     String driverClassName="org.postgresql.Driver";
-    String urlConexao="jdbc:postgresql://127.0.0.1:5432/ADS_DB";
-    String usuarioDb="pduser";
-    String senhaDb="ads111";
+    String urlConexao="jdbc:postgresql://localhost/prontuario_digital";
+    String usuarioDb="postgres";
+    String senhaDb="123";
     
     private static ConexaoFactory conexaoFactory=null;
     

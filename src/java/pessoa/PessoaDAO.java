@@ -227,9 +227,9 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
         
             
         try{    
-            String query = "SELECT Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, "
+            super.setSql("SELECT Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, "
                     + "Data_Nascimento_Pessoa, Senha_Pessoa, Status_Pessoa FROM pessoas "
-                    + "WHERE Email_Pessoa = ? AND Senha_Pessoa = MD5(?) ";
+                    + "WHERE Email_Pessoa = ? AND Senha_Pessoa = MD5(?) ");
 
             super.setParametro(pessoa.getEmail());
             super.setParametro(pessoa.getSenha());

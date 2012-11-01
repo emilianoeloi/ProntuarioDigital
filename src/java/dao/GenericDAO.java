@@ -67,6 +67,8 @@ public class GenericDAO {
                 this.stmt.setInt(i, (Integer)(o));
             }else if (o instanceof Date){
                 this.stmt.setDate(i, (Date)o);
+            }else if(o == null){
+                this.stmt.setString(i, null);
             }
             i++;
         }        

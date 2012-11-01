@@ -6,12 +6,15 @@ package pessoa;
 
 import java.io.Serializable;
 import java.sql.Date;
+import util.*;
 
 /**
  *
  * @author emilianoeloi
  */
 public class PessoaBean implements Serializable {
+    
+    private ConverteData convData = new ConverteData();
     
     private int codigo;
     private String nome;
@@ -43,7 +46,7 @@ public class PessoaBean implements Serializable {
     }
 
     public Date getDataNascimento() {
-        return dataNascimento;
+        return (dataNascimento==null)?convData.converteEmData("12/12/2012"):this.dataNascimento;
     }
 
     public String getSenha() {

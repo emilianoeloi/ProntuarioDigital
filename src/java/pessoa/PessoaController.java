@@ -108,7 +108,7 @@ public class PessoaController extends HttpServlet {
                rd = request.getRequestDispatcher("index.jsp");
                
            }else if(acao.equalsIgnoreCase("primeiro-cadastro")){
-               pessoa.setSenha("S3nhaP4drao");
+               //pessoa.setSenha("S3nhaP4drao");
                dao.cadastrar(pessoa);
                request.setAttribute("pessoaPrimeiroCadastro", pessoa);
                request.setAttribute("perfil", "pessoa");
