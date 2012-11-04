@@ -113,8 +113,8 @@ CREATE TABLE MedicoXEspecialidade
 	(
 	Codigo_Medico		INT NOT NULL,
 	Codigo_Especialidade	INT NOT NULL,
-	FOREIGN KEY(Codigo_Medico) REFERENCES Medicos(Codigo_Medico),	
-	FOREIGN KEY(Codigo_Hospital) REFERENCES Hospitais(Codigo_Hospital)
+	FOREIGN KEY(Codigo_Medico) REFERENCES Medicos(Codigo_Medico) ON UPDATE CASCADE ON DELETE CASCADE,	
+	FOREIGN KEY(Codigo_Hospital) REFERENCES Hospitais(Codigo_Hospital) ON UPDATE CASCADE ON DELETE CASCADE
 	);
 
 CREATE TABLE PacienteXExames
