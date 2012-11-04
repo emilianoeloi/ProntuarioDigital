@@ -12,9 +12,9 @@ public class RestricaoBean {
     private int codigo;
     private String descricao;
     private String tipo;
-    private String cpf;
+    private int cpf;
     
-    public RestricaoBean(int codigo, String descricao, String tipo, String cpf){
+    public RestricaoBean(int codigo, String descricao, String tipo, int cpf){
         this.codigo = codigo;
         this.descricao = descricao;
         this.tipo = tipo;
@@ -33,7 +33,7 @@ public class RestricaoBean {
     public String getTipo(){
         return tipo;
     }
-    public String getCpf(){
+    public int getCpf(){
         return cpf;
     }
     public void setCodigo(int codigo){
@@ -45,7 +45,7 @@ public class RestricaoBean {
     public void setTipo(String tipo){
         this.tipo = tipo;
     }
-    public void setCpf(String cpf){
+    public void setCpf(int cpf){
         this.cpf = cpf;
     }
     

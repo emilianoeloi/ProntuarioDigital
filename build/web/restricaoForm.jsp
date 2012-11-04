@@ -5,35 +5,42 @@
 --%>
 
 <!-- incluindo o cabecalho -->
+<%@page  contentType="text/html" errorPage="erro.jsp" pageEncoding="ISO-8859-1" 
+        import="javax.servlet.http.Cookie"
+        import="javax.servlet.http.HttpSession"
+        import="pessoa.*"
+        import="admin.*"
+        import="java.text.*"
+        import="java.util.List"
+        import="java.util.*"
+%>
+
+<%
+    HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
+
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
+%>
 
 
 <jsp:include page="cabecalho.jsp" flush="true">
-    <jsp:param name="login" value="generico" />
+    <jsp:param name="pagina" value="principal" />
 </jsp:include>
 
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>
 
-
-<html>
-    <head>
-        <style type="text/css">
-            #descricao{
-                height: 200px; 
-                width: 530px;
-                overflow-x:hidden;
-                overflow:auto;
-                resize:none;
-            }
-        
-        </style>
-        
-    </head>
-    <body>
-        
-        <jsp:useBean id="restricao" scope="session" class="admin.RestricaoDAO" />
-
-        <%
-            String codigo = restricao.ultimoRegistro();
-        %>
+<jsp:useBean id="pacientesLista" scope="request" class="List" />
+ <jsp:useBean id="codigo" class="admin.RestricaoDAO"/>       
         
     <div class="span9">
         <h2>Restrição</h2>
@@ -42,18 +49,36 @@
                     <fieldset>
                         <legend>Cadastro de Restrição</legend>
                                 <label>Código<br />
-                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" readonly="readonly" value="<%= codigo %>" />	
+                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" readonly="readonly" value="<%= codigo.ultimoRegistro() %>" />	
                                 </label>
             
-                                <label>CPF Paciente<br />
-                                    <input type="text" id="cpf" name="cpf" class="input-xxlarge">	
+                                <label>Paciente<br />
+                                    <select name="cpf" id="cpf" class="input-xxlarge">
+                                            <option selected>Selecione um Paciente </option>
+                                                  <%  
+                                                
+                                                 
+                                                for(Iterator i = pacientesLista.iterator(); i.hasNext();) {
+                                                    PessoaBean p = (PessoaBean)i.next(); 
+                                            %>
+        
+                                            <option value="<%= p.getCodigo() %>" > <%= p.getNome() %>  </option>
+                                        <%
+                                                }
+                                        %>
+        
+                                    </select>	
                                 </label>
                                 
                                 <label> Tipo Restrição <br>
-                                    <input type="text" id="tipo" name="tipo" class="input-xxlarge">
+                                    <select name="tipo" id="tipo" class="input-xxlarge" >
+                                        <option selected>Selecione uma opção</option> 
+                                        <option> Alérgica </option>
+                                        <option> Medicamento </option>
+                                    </select>
                                 </label>
                                 <label>Descrição Restrição<br />
-                                    <textarea id="descricao" name="descricao" class="input-xxlarge"> </textarea>	
+                                    <textarea id="descricao" name="descricao" class="input-xxlarge" style="resize:none;"> </textarea>	
                                 </label>
 				
 			
@@ -67,8 +92,6 @@
                
 			</form>
     </div>
-</body>
-    </html>
 <!-- inclusao do rodape -->
 <jsp:include page="rodape.jsp" flush="true">
     <jsp:param name="login" value="generico" />

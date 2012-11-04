@@ -41,6 +41,8 @@ public class RestricaoControl extends HttpServlet {
         
         RestricaoDAO dao = new RestricaoDAO();
         
+        
+        
         String cmd = request.getParameter("cmd");
         
         if (cmd == null)
@@ -53,7 +55,10 @@ public class RestricaoControl extends HttpServlet {
             restricao.setCodigo(Integer.parseInt(codigo)); 
             restricao.setTipo(request.getParameter("tipo")); 
             restricao.setDescricao(request.getParameter("descricao"));
-            restricao.setCpf(request.getParameter("cpf"));
+            String cpf = request.getParameter("cpf");
+            if (cpf == null)
+                cpf = "1";
+            restricao.setCpf(Integer.parseInt(cpf));
             
         } 
         
@@ -63,7 +68,12 @@ public class RestricaoControl extends HttpServlet {
             if(cmd.equalsIgnoreCase("listar")){ 
                 List restricoesList = dao.retornaRestricoes(); 
                 request.setAttribute("restricoesList", restricoesList); 
-                rd = request.getRequestDispatcher("adminRestricoes.jsp"); 
+                rd = request.getRequestDispatcher("adminRestricoes.jsp");
+            }else if(cmd.equalsIgnoreCase("lista")){
+                
+                List pacientesList = dao.pacientes();
+                request.setAttribute("pacientesLista", pacientesList);
+                rd = request.getRequestDispatcher("restricaoForm.jsp");
             }else if(cmd.equalsIgnoreCase("salvar")){ 
                 dao.salvar(restricao); 
                 rd = request.getRequestDispatcher("RestricaoControl?cmd=listar"); 
@@ -76,15 +86,19 @@ public class RestricaoControl extends HttpServlet {
                 rd = request.getRequestDispatcher("adminRestricoes.jsp");
                 
             }else if(cmd.equalsIgnoreCase("atu")){
+                List pacientesList = dao.pacientes();
+                request.setAttribute("pacientesLista", pacientesList);
+                List codPaciente = dao.codigoPaciente(restricao.getCodigo());
+                request.setAttribute("codPaciente", codPaciente);
                 restricao = dao.adminRestricoes(restricao.getCodigo()); 
-                HttpSession session = request.getSession(true); 
-                session.setAttribute("restricao",restricao); 
+                
+                request.setAttribute("restricao",restricao); 
                 rd = request.getRequestDispatcher("restricaoSelecionada.jsp");
             }else if(cmd.equalsIgnoreCase("atualizar")){ 
                 dao.atualizar(restricao); 
                 rd = request.getRequestDispatcher("RestricaoControl?cmd=listar"); 
             }else if(cmd.equalsIgnoreCase("principal")){ 
-                rd = request.getRequestDispatcher("index.jsp"); 
+                rd = request.getRequestDispatcher("RestricaoControl?cmd=lista"); 
             }
                 
             rd.forward(request, response); 
@@ -100,23 +114,7 @@ public class RestricaoControl extends HttpServlet {
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /*
-             * TODO output your page here. You may use following sample code.
-             */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminControl</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminControl at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

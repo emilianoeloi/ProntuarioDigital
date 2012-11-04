@@ -5,17 +5,46 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="iso-8859-1"
+        import="javax.servlet.http.Cookie"
+        import="javax.servlet.http.HttpSession"
+        import="admin.*"
+        import="java.util.List"
         import="java.util.*"
-        import="admin.*" %>
+        import="pessoa.*"
+%>
+
+
+<%
+    HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
+
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
+    
+%>
+
 <!-- incluindo o cabecalho -->
 <jsp:include page="cabecalho.jsp" flush="true">
-    <jsp:param name="login" value="generico" />
+    <jsp:param name="pagina" value="principal" />
 </jsp:include>
-<html>
-    <div class="span9">
+
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>  
+    
+<jsp:useBean id="restricoesList" scope="request" class="List" />
+    
+<div class="span9">
         <h2>Restrições</h2>
         <ul class="nav">
-            <li><a href="restricaoForm.jsp">Nova Restrição</a></li>
+            <li><a href="RestricaoControl?cmd=lista">Nova Restrição</a></li>
         </ul>
         <table class="table table-hover">
             <caption>
@@ -25,10 +54,10 @@
             <thead>
                 <tr>
                     <th>Código</th>
+                    
+                    <th>Tipo</th>
                     <th></th>
                     <th>Paciente</th>
-                    <th></th>
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th colspan="4">Opções</th>
@@ -36,16 +65,16 @@
             </thead>
             <tbody>
                 <% 
-                List restricoesList = (List)request.getAttribute("restricoesList"); 
+ 
                 for(Iterator i = restricoesList.iterator(); i.hasNext();) {
                     RestricaoBean r = (RestricaoBean)i.next(); 
              %>
                 <tr>
                     <td><a href="RestricaoControl?cmd=listar"><%= r.getCodigo() %></td>
+                    
+                    <td><%= r.getTipo() %></td>
                     <td></td>
-                    <td><%= r.getCpf() %></td>
-                    <td></td>
-                    <td></td>
+                    <td><%= r.getDescricao() %></td>
                     <td></td>
                     <td></td>
                     <th><a href="RestricaoControl?cmd=atu&codigo=<%= r.getCodigo() %>">Editar</a></th>
@@ -59,7 +88,7 @@
                 %>
         </table>
 </div>
-</html>
+
 <!-- inclusao do rodape -->
 <jsp:include page="rodape.jsp" flush="true">
     <jsp:param name="login" value="generico" />

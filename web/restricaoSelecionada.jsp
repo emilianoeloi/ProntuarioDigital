@@ -3,31 +3,50 @@
     Created on : Oct 14, 2012, 10:15:45 AM
     Author     : Administrador
 --%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"
+        import="javax.servlet.http.Cookie"
+        import="javax.servlet.http.HttpSession"
+        import="java.text.SimpleDateFormat"
+        import="java.util.Date" 
+        import="pessoa.*"
+        import="java.util.List"
+        import="admin.*"
+        import="java.util.*"
+%>
+<%
+    HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
 
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
+%>
+
+<!-- incluindo o cabecalho -->
 <jsp:include page="cabecalho.jsp" flush="true">
-    <jsp:param name="login" value="generico" />
+    <jsp:param name="pagina" value="principal" />
 </jsp:include>
 
-<jsp:useBean id="restricao" scope="session" class="admin.RestricaoBean" />
+
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>
+
+<jsp:useBean id="restricao" scope="request" class="admin.RestricaoBean" />
+<jsp:useBean id="pacientesLista" scope="request" class="List" />
+<jsp:useBean id="codPaciente" scope="request" class="List" />
 
 <%
-    String nomeRestricao = restricao.getTipo();
+    String tipo = restricao.getTipo();
 %>
-<html>
-    <head>
-        <style type="text/css">
-            #descricao{
-                height: 200px; 
-                width: 530px;
-                overflow-x:hidden;
-                overflow:auto;
-                resize:none;
-            }
-        
-        </style>
-        
-    </head>
-    <body>
+
+
     <div class="span9">
         <h2>Restrição</h2>
 <form class="frm-cirurgia" method="POST" action="RestricaoControl?cmd=atualizar">
@@ -35,19 +54,56 @@
                     <fieldset>
                         <legend>Cadastro de Restrição</legend>
                                 <label>Código<br />
-                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" value="${restricao.codigo}" readonly="readonly">	
+                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" value="<% out.print(restricao.getCodigo()); %>" readonly="readonly">	
                                 </label>
                                 
-                                <label>CPF Paciente<br />
-                                    <input type="text" id="cpf" name="cpf" class="input-xxlarge" value="${restricao.cpf}" >	
+                                <label>Paciente<br />
+                                    <select id="cpf" name="cpf" class="input-xxlarge">
+                                         
+                                      <%  
+                                             
+                                              for(Iterator i = pacientesLista.iterator(); i.hasNext();) {
+                                                    PessoaBean p = (PessoaBean)i.next();
+                                                    for(int j = 0; j < codPaciente.size(); j ++){
+                                                        if (p.getCodigo() == codPaciente.get(j)){
+                                            %>
+        
+                                            <option value="<% out.print(codPaciente.get(j)); %>" selected> <% out.print(p.getNome()); %>  </option>
+                                        <%
+                                                        break;
+                                                        }else{
+                                                    
+                                        %>
+                                            <option value="<%= p.getCodigo() %>"> <%= p.getNome() %>  </option>
+                                        <%              }      
+                                                    }
+                                                    
+                                              }
+                                        %>
+                                    </select>
+	
                                 </label>
                                 
                                 
                                 <label> Tipo Restrição <br>
-                                    <input type="text" id="tipo" name="tipo" class="input-xxlarge" value="${restricao.tipo}">
+                                    <select name="tipo" id="tipo" class="input-xxlarge" >
+                                        <%
+                                            if(tipo.equals("Alérgica")){
+                                        %>
+                                        <option selected>Alérgica</option> 
+                                        <option> Medicamento </option>
+                                        <%
+                                            }else{
+                                        %>
+                                        <option selected>Medicamento</option> 
+                                        <option> Alérgica </option>
+                                        <%
+                                            }
+                                        %>
+                                    </select>
                                 </label>
                                 <label>Descrição Restrição<br />
-                                    <textarea id="descricao" name="descricao" class="input-xxlarge" >${restricao.descricao}</textarea>>	
+                                    <textarea id="descricao" name="descricao" class="input-xxlarge" style="resize:none;"><% out.print(restricao.getDescricao()); %></textarea>	
                                 </label>
 				
 			<div style="text-align: center">
@@ -58,8 +114,6 @@
                     </fieldset>
 			</form>
     </div>
-</body>
-    </html>
 <!-- inclusao do rodape -->
 <jsp:include page="rodape.jsp" flush="true">
     <jsp:param name="login" value="generico" />

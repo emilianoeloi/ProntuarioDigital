@@ -5,13 +5,41 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="iso-8859-1"
+        import="javax.servlet.http.Cookie"
+        import="javax.servlet.http.HttpSession"
+        import="java.text.SimpleDateFormat"
+        import="java.util.Date" 
+        import="pessoa.*"
+        import="java.util.List"
+        import="cirurgia.*"
         import="java.util.*"
-        import="cirurgia.*" %>
-<!-- incluindo o cabecalho -->
+%>
+
+<%
+    HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
+
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
+%>
 <jsp:include page="cabecalho.jsp" flush="true">
-    <jsp:param name="login" value="generico" />
+    <jsp:param name="pagina" value="principal" />
 </jsp:include>
-<html>
+
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>   
+
+    <jsp:useBean id="todasCirurgias" scope="request" class="List" />
+    <jsp:useBean id="data" scope="request" class="data.ConverteData" />
+    
     <div class="span9">
         <h2>Cirurgias</h2>
         <ul class="nav">
@@ -25,8 +53,8 @@
             
             <tbody>
                 <% 
-                List cirurgiasList = (List)request.getAttribute("cirurgiasList"); 
-                for(Iterator i = cirurgiasList.iterator(); i.hasNext();) {
+                 
+                for(Iterator i = todasCirurgias.iterator(); i.hasNext();) {
                     CirurgiaBean c = (CirurgiaBean)i.next(); 
                 %>
                 <tr>
@@ -38,21 +66,21 @@
                     <td><%= c.getCirurgia() %></td>
                 </tr>
                 <tr>
-                    <th>CRM Médico</th>
+                    <th>Médico</th>
                 </tr><tr> 
-                    <td><%= c.getCrm() %></td>
+                    <td><%= c.getMedico() %></td>
                     
                 </tr>
                 <tr>
-                    <th>CPF Paciente</th>
+                    <th>Paciente</th>
                 </tr><tr>    
-                    <td><%= c.getCpf() %></td>
+                    <td><%= c.getPaciente() %></td>
                     
                 </tr>
                 <tr>
                     <th>Data Cirurgia</th>
                 </tr><tr>    
-                    <td><%= c.getData() %></td>
+                    <td><%= data.converteDataTexto(c.getData()) %></td>
                     
                 </tr>
                 <tr>
@@ -71,7 +99,7 @@
         </table>
                   
 </div>
-</html>
+
 <!-- inclusao do rodape -->
 <jsp:include page="rodape.jsp" flush="true">
     <jsp:param name="login" value="generico" />

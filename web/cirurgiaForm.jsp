@@ -1,55 +1,104 @@
-<!-- incluindo o cabecalho -->
-<jsp:include page="cabecalho.jsp" flush="true">
-    <jsp:param name="login" value="generico" />
-</jsp:include>
-<!--jsp:useBean id="cirurgia" scope="session" class="cirurgia.CirurgiaDAO" /-->
+<%@page  contentType="text/html" errorPage="erro.jsp" pageEncoding="ISO-8859-1" 
+        import="javax.servlet.http.Cookie"
+        import="javax.servlet.http.HttpSession"
+        import="pessoa.*"
+        import="cirurgia.*"
+        import="java.text.*"
+        import="java.util.List"
+        import="java.util.*"
+%>
 
 <%
-    ///String codigo = cirurgia.ultimoRegistro();
+    HttpSession sessao = request.getSession();
+    PessoaBean pessoa = null;
+    try{
+        pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
+        if(pessoa == null)
+            response.sendError(403, "Você não tem permissão!");
+
+    }catch(Exception exc){
+        response.sendError(403, "Você não tem permissão!");
+    }
 %>
-<html>
-    <head>
-        <style type="text/css">
-            #descricao{
-                height: 200px; 
-                width: 530px;
-                overflow-x:hidden;
-                overflow:auto;
-                resize:none;
-            }
-        
-        </style>
-        
-    </head>
-    <body>
+
+<jsp:include page="cabecalho.jsp" flush="true">
+    <jsp:param name="pagina" value="principal" />
+</jsp:include>
+
+
+<div class="row">
+    <!-- MENU -->
+    <jsp:include page="menu.jsp" flush="true">
+        <jsp:param name="pagina" value="<%=request.getParameter("pagina")%>" />
+    </jsp:include>
+
+    <jsp:useBean id="medicosLista" scope="request" class="List" />
+<jsp:useBean id="pacientesLista" scope="request" class="List" />
+<jsp:useBean id="codigo" class="cirurgia.CirurgiaDAO"/>
+
+
     <div class="span9">
         <h2>Médico</h2>
 <form class="form-cirurgia" method="POST" action="CirurgiaControl?cmd=salvar">
-                    
+     
                     <fieldset>
                         <legend>Cadastro de Cirurgia</legend>
                                 <label>Código<br />
-                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" readonly="readonly" value="">	
+                                    <input type="text" id="codigo" name="codigo" class="input-xxlarge" readonly="readonly" value="<%= codigo.ultimoRegistro() %>">	
                                 </label>
                                 
                                 <label> Nome Cirurgia <br>
                                     <input type="text" id="nome" name="nome" class="input-xxlarge">
                                 </label>
-                                <label>CRM Médico<br />
-                                    <input type="text" id="crm" name="crm" class="input-xxlarge">	
-                                </label>
-				<label>CPF Paciente<br />
-                                    <!--input type="text" id="cpf" name="cpf" class="input-xxlarge"-->
-                                    <select>
-                                        <option value="1">Emiliano</option>
-                                        <option value="2">Marlon</option>
+                
+ 
+                                <label>Médico<br />
+                                    <select name="crm" id="crm" class="input-xxlarge">
+                                          <option selected>Selecione um Médico </option>  
+                                                 <%  
+                                                
+                                                
+                                                for(Iterator i = medicosLista.iterator(); i.hasNext();) {
+                                                    PessoaBean p = (PessoaBean)i.next(); 
+                                            %>
+        
+                                            <option value="<%= p.getCodigo() %>" > <%= p.getNome() %>  </option>
+                                        <%
+                                                }
+                                        %>
+                                            
                                     </select>
                                 </label>
+                              
+          
+				<label>Paciente<br />
+                                          
+                                    
+                                    <select name="cpf" id="cpf" class="input-xxlarge">
+                                            <option selected>Selecione um Paciente </option>
+                                                  <%  
+                                                
+                                                 
+                                                for(Iterator i = pacientesLista.iterator(); i.hasNext();) {
+                                                    PessoaBean p = (PessoaBean)i.next(); 
+                                            %>
+        
+                                            <option value="<%= p.getCodigo() %>" > <%= p.getNome() %>  </option>
+                                        <%
+                                                }
+                                        %>
+        
+                                    </select>
+                         
+                                </label>
+        
                                 <label>Data Cirurgia<br />
                                     <input type="text" id="data" name="data" class="input-xxlarge">	
                                 </label>
                                 <label>Descrição da Cirurgia<br />
-                                    <textarea id="descricao" name="descricao"  ></textarea>	
+                                    <div class="controls">
+                                    <textarea class="input-xxlarge" id="descricao" name="descricao" style="resize:none;"></textarea>	
+                                    </div>
                                 </label>
                         
 			
@@ -60,9 +109,10 @@
                         </div>
                     </fieldset>
 			</form>
+                                
+     
     </div>
-</body>
-    </html>
+
 <!-- inclusao do rodape -->
 <jsp:include page="rodape.jsp" flush="true">
     <jsp:param name="login" value="generico" />
