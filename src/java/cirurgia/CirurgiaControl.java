@@ -5,17 +5,14 @@
 package cirurgia;
 
 
-import data.ConverteData;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.sql.Date;
-import java.text.DateFormat;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,52 +42,33 @@ public class CirurgiaControl extends HttpServlet {
             throws ServletException, IOException 
     {   
         
+        CirurgiaBean cirurgia = new CirurgiaBean();
+        CirurgiaDAO dao = new CirurgiaDAO();
         
         String cmd = request.getParameter("cmd");
         
         if (cmd == null)
             cmd = "principal";
-        
-        CirurgiaBean cirurgia = new CirurgiaBean();
-        CirurgiaDAO dao = new CirurgiaDAO();
-        ConverteData cd = new ConverteData();
-                
-        if(cmd != null || ! cmd.equalsIgnoreCase("principal")){
+            
+        if (cmd != null || !cmd.equalsIgnoreCase("principal")){ 
             String codigo = request.getParameter("codigo");
-            if(codigo==null)
-                codigo="1";
-            cirurgia.setCodigo(Integer.parseInt(codigo));
-            String cpf = request.getParameter("cpf");
-            if(cpf==null)
-                cpf="1";
-            cirurgia.setCpf(Integer.parseInt(cpf));
-            String crm = request.getParameter("crm");
-            if(crm==null)
-                crm="1";
-            cirurgia.setCrm(Integer.parseInt(crm));
-            cirurgia.setCirurgia(request.getParameter("nome"));
-            cirurgia.setDescricao(request.getParameter("descricao"));
-            String data = request.getParameter("data");
-            if(data==null)
-                data="00/00/0000";
-            cirurgia.setData(cd.converteEmData(data));
+            if(codigo == null)
+                codigo = "1";
+            cirurgia.setCodigo(Integer.parseInt(codigo)); 
+            cirurgia.setCirurgia(request.getParameter("nome")); 
+            cirurgia.setCpf(request.getParameter("cpf")); 
+            cirurgia.setCrm(request.getParameter("crm")); 
+            cirurgia.setDescricao(request.getParameter("descricao")); 
+            cirurgia.setData(request.getParameter("data"));
+        } 
         
-        }
-               
         try{
             RequestDispatcher rd = null;
         
             if(cmd.equalsIgnoreCase("listar")){ 
-                List todasCirurgias = dao.retornaTodasCirurgias(); 
-                request.setAttribute("todasCirurgias", todasCirurgias); 
-                rd = request.getRequestDispatcher("listaCirurgias.jsp");
-            }else if(cmd.equalsIgnoreCase("lista")){
-                
-                List pacientesList = dao.pacientes();
-                request.setAttribute("pacientesLista", pacientesList);
-                List medicosList = dao.medicos();
-                request.setAttribute("medicosLista", medicosList);
-                rd = request.getRequestDispatcher("cirurgiaForm.jsp");
+                List cirurgiasList = dao.retornaCirurgias(); 
+                request.setAttribute("cirurgiasList", cirurgiasList); 
+                rd = request.getRequestDispatcher("listaCirurgias.jsp"); 
             }else if(cmd.equalsIgnoreCase("salvar")){ 
                 dao.salvar(cirurgia); 
                 rd = request.getRequestDispatcher("CirurgiaControl?cmd=listar"); 
@@ -103,24 +81,15 @@ public class CirurgiaControl extends HttpServlet {
                 rd = request.getRequestDispatcher("medicoCirurgias.jsp");
                 
             }else if(cmd.equalsIgnoreCase("atu")){
-                List medicosList = dao.medicos();
-                request.setAttribute("medicosLista", medicosList);
-                List pacientesList = dao.pacientes();
-                request.setAttribute("pacientesLista", pacientesList);
-                
-                List codMedico = dao.codigoMedico(cirurgia.getCodigo());
-                request.setAttribute("codMedico",codMedico);
-                List codPaciente = dao.codigoPaciente(cirurgia.getCodigo());
-                request.setAttribute("codPaciente",codPaciente);
                 cirurgia = dao.medicoCirurgias(cirurgia.getCodigo()); 
-             
-                request.setAttribute("cirurgia",cirurgia); 
+                HttpSession session = request.getSession(true); 
+                session.setAttribute("cirurgia",cirurgia); 
                 rd = request.getRequestDispatcher("cirurgiaSelecionada.jsp");
             }else if(cmd.equalsIgnoreCase("atualizar")){ 
                 dao.atualizar(cirurgia); 
                 rd = request.getRequestDispatcher("CirurgiaControl?cmd=listar"); 
             }else if(cmd.equalsIgnoreCase("principal")){ 
-                rd = request.getRequestDispatcher("CirurgiaControl?cmd=ret"); 
+                rd = request.getRequestDispatcher("index.jsp"); 
             }
                 
             rd.forward(request, response); 
@@ -128,6 +97,45 @@ public class CirurgiaControl extends HttpServlet {
         }catch(Exception e){
            throw new ServletException(e);
         }
+        /*
+         * 
+         * /*String data = request.getParameter("data");
+              
+       Calendar dataCirurgia = null;
+        
+        // fazendo a conversão da data
+        try {
+            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(data);
+            dataCirurgia = Calendar.getInstance();
+            dataCirurgia.setTime(date);
+        } catch (ParseException e) {
+            out.println("Erro de conversão da data");
+            return; //para a execução do método
+        }
+        * 
+        
+        //cria objeto da bean
+        
+        cirurgia.setCodigo(request.getParameter("codigo"));
+        cirurgia.setCirurgia(request.getParameter("nome"));
+        cirurgia.setCrm(request.getParameter("crm"));
+        cirurgia.setCpf(request.getParameter("cpf"));
+        cirurgia.setData(request.getParameter("data"));
+        cirurgia.setDescricao(request.getParameter("cirurgia"));
+        
+        //salva cirurgia
+       
+        
+        try{
+            dao.salvar(cirurgia);
+            out.println("Cadastrado ");
+        }catch(SQLException e){
+            e.printStackTrace();
+            out.println("Erro Inesperado: " + e.getMessage());
+        }
+        * 
+        */
+        
         
        
         
