@@ -6,6 +6,7 @@ package cirurgia;
 
 import java.sql.Date;
 
+
 /**
  *
  * @author Administrador
@@ -13,12 +14,14 @@ import java.sql.Date;
 public class CirurgiaBean {
     private int codigo;
     private String cirurgia;
-    private String crm;
-    private String cpf;
+    private int crm;
+    private int cpf;
     private String descricao;
-    private String data;
+    private Date data;
+    private String paciente;
+    private String medico;
     
-    public CirurgiaBean(int codigo, String cirurgia, String cpf, String crm, String descricao, String data) {
+    public CirurgiaBean(int codigo, String cirurgia, int cpf, int crm, String descricao, Date data) {
         this.codigo = codigo;
         this.cirurgia = cirurgia;
         this.cpf = cpf;
@@ -26,11 +29,26 @@ public class CirurgiaBean {
         this.descricao = descricao;
         this.data = data;
     }
-
+    public CirurgiaBean(int codigo, String cirurgia, String medico, String paciente, Date data, String descricao) {
+        this.codigo = codigo;
+        this.cirurgia = cirurgia;
+        this.descricao = descricao;
+        this.data = data;
+        this.paciente = paciente;
+        this.medico = medico;
+    }
     public CirurgiaBean() {
         
     }
-    
+    public CirurgiaBean(int codigo, String cirurgia, String descricao){
+        this.codigo = codigo;
+        this.cirurgia = cirurgia;
+        this.descricao = descricao;
+    }
+    public CirurgiaBean(int codigo, String cirurgia){
+        this.codigo = codigo;
+        this.cirurgia = cirurgia;
+    }
        
     public void setCodigo(int codigo){
         this.codigo = codigo;
@@ -40,17 +58,17 @@ public class CirurgiaBean {
         this.cirurgia = cirurgia;
     }
     
-    public void setCrm(String crm){
+    public void setCrm(int crm){
         this.crm = crm;
     }
-    public void setCpf(String cpf){
+    public void setCpf(int cpf){
         this.cpf = cpf;
     }
     
     public void setDescricao(String descricao){
         this.descricao = descricao;
     }
-    public void setData(String data){
+    public void setData(Date data){
         this.data = data;
     }
     
@@ -61,18 +79,24 @@ public class CirurgiaBean {
     public String getCirurgia(){
         return cirurgia;
     }
-    public String getCrm(){
+    public int getCrm(){
         return crm;
     }
-    public String getCpf(){
+    public int getCpf(){
         return cpf;
     }
     
     public String getDescricao(){
         return descricao;
     }
-    public String getData(){
+    public Date getData(){
         return data;
+    }
+    public String getPaciente(){
+        return paciente;
+    }
+    public String getMedico(){
+        return medico;
     }
     
 }
