@@ -54,7 +54,7 @@
 			<div style="text-align: center">
                        
 				<button type="submit" class="btn btn-primary">Salvar</button>
-				<button type="button" class="btn btn-danger">Cancelar</button>
+				<button type="button" class="btn btn-danger" onclick="window.location = 'ExameController'">Cancelar</button>
 				
                         </div>
                     </fieldset>
