@@ -1,5 +1,7 @@
 ﻿-- DROP TABLE Pacientes
+
 -- DROP TABLE Medicos
+
 -- DROP TABLE Pessoas
 create database sanus;
 

@@ -15,10 +15,10 @@
   <!-- Main hero unit for a primary marketing message or call to action -->
   <div class="hero-unit">
     <h1>Sanus - Saúde no controle</h1>
-    <p>O objetivo do nosso Sistema $eacute; centralizar informações sobre o histórico de saúde do paciente e permitir o acompanhamento por qualquer médico.
-O Prontuário Digital armazenará informações úteis para o procedimento de atendi-mento, pois, disponibiliza dados como tipo sanguÃ­neo do paciente, alergias,
+    <p>O objetivo do nosso Sistema é centralizar informações sobre o histórico de saúde do paciente e permitir o acompanhamento por qualquer médico.
+A rede armazenará informações úteis para o procedimento de atendimento, disponibilizando dados como tipo sanguíneo do paciente, alergias,
 cirurgias dentre outras informações relevantes.</p>
-    <p><a class="btn btn-primary btn-large" href="informacoes.jsp">Saiba mais &raquo;</a></p>
+    <p><a class="btn btn-primary btn-large" href="informacoes.jsp">Saiba mais</a></p>
   </div>
 
          <!-- BOX CADASTRO -->

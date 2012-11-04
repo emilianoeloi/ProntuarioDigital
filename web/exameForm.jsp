@@ -6,6 +6,7 @@
         import="pessoa.*"
         import="java.util.List"
         import="java.util.*"%>
+
 <%
     HttpSession sessao = request.getSession();
     PessoaBean pessoa = null;
