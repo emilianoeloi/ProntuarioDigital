@@ -32,12 +32,46 @@ public class HospitalDAO {
         return con;
     }
     
-    public void cadastrar(HospitalBean hospitalBean){
-        try{
-            String query = "INSERT INTO Hospitais (Nome_Hospital) VALUES (?)";
+        private void obterProximoCodigo(HospitalBean hospital){
+                    
+        try{    
+            
+            String query = "SELECT NEXTVAL ('hospitais_codigo_hospital_seq') AS codigo";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setString(1, hospitalBean.getNome());
+            this.rs = this.ptmt.executeQuery();
+            
+            while(rs.next()){
+                hospital.setCodigo(rs.getInt(1));
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(this.rs!=null)
+                    rs.close();
+                if(this.ptmt!=null)
+                    ptmt.close();
+                if(this.con!=null)
+                    this.con.close();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+    public void cadastrar(HospitalBean hospitalBean){
+        try{
+            String query = "INSERT INTO Hospitais (codigo_hospital, nome_hospital) VALUES (?, ?)";
+            this.obterProximoCodigo(hospitalBean);
+            this.con = getConexao();
+            this.ptmt = con.prepareStatement(query);
+            this.ptmt.setInt(1, hospitalBean.getCodigo());
+            this.ptmt.setString(2, hospitalBean.getNome());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -83,12 +117,12 @@ public class HospitalDAO {
         } 
     }
     
-    public void excluir(Integer codigo){
+    public void excluir(HospitalBean hospitalbean){
         try{
-            String query = "DELETE Hospitais WHERE Codigo_Hospital = ?";
+            String query = "DELETE from Hospitais WHERE Codigo_Hospital = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setInt(1, codigo);
+            this.ptmt.setInt(1, hospitalbean.getCodigo());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();

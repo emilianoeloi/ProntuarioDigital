@@ -13,7 +13,8 @@
       <li><a href="PessoaController">Pessoas</a></li>
       <li><a href="MedicoController">M&eacute;dicos</a></li>
       <li><a href="PacienteController">Pacientes</a></li>
-      <li><a href="RestricaoController">Restri&ccedil;&otilde;es</a></li>
+      <li><a href="RestricaoControl?cmd=ret">Restri&ccedil;&otilde;es</a></li>
+      <li><a href="MedicamentoController">Medicamentos</a></li>
       
       <li class="nav-header">M&eacute;dico</li>
       <li><a href="#">Dados pessoais</a></li>
