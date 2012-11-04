@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package hospital;
+package medicamentos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,13 +16,13 @@ import factory.ConexaoFactory;
  *
  * @author emilianoeloi
  */
-public class HospitalDAO {
+public class MedicamentoDAO {
     
     Connection con = null;
     PreparedStatement ptmt = null;
     ResultSet rs = null;
     
-    public HospitalDAO(){
+    public MedicamentoDAO (){
         
     }
     
@@ -32,17 +32,17 @@ public class HospitalDAO {
         return con;
     }
     
-        private void obterProximoCodigo(HospitalBean hospital){
+    private void obterProximoCodigo(MedicamentoBean medicamento){
                     
         try{    
             
-            String query = "SELECT NEXTVAL ('hospitais_codigo_hospital_seq') AS codigo";
+            String query = "SELECT NEXTVAL ('medicamentos_codigo_medicamento_seq') AS codigo";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
             this.rs = this.ptmt.executeQuery();
             
             while(rs.next()){
-                hospital.setCodigo(rs.getInt(1));
+                medicamento.setCodigo(rs.getInt(1));
             }
             
         }catch(SQLException e){
@@ -63,15 +63,16 @@ public class HospitalDAO {
         }
     }
     
+   
     
-    public void cadastrar(HospitalBean hospitalBean){
+    public void cadastrar(MedicamentoBean medicamentoBean){
         try{
-            String query = "INSERT INTO Hospitais (codigo_hospital, nome_hospital) VALUES (?, ?)";
-            this.obterProximoCodigo(hospitalBean);
+            String query = "INSERT INTO medicamentos (codigo_medicamento, bula_medicamento) VALUES (?, ?)";
+            this.obterProximoCodigo(medicamentoBean);
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setInt(1, hospitalBean.getCodigo());
-            this.ptmt.setString(2, hospitalBean.getNome());
+            this.ptmt.setInt(1, medicamentoBean.getCodigo());
+            this.ptmt.setString(2, medicamentoBean.getMedicamento());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -91,13 +92,13 @@ public class HospitalDAO {
         }
     }
     
-    public void alterar(HospitalBean hospitalBean){
+    public void alterar(MedicamentoBean medicamentoBean){
         try{
-            String query = "UPDATE Hospitais SET Nome_Hospital = ? WHERE Codigo_Hospital = ?";
+            String query = "UPDATE medicamentos SET bula_medicamento = ? WHERE codigo_medicamento = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setString(1, hospitalBean.getNome());
-            this.ptmt.setInt(2, hospitalBean.getCodigo());
+            this.ptmt.setString(1, medicamentoBean.getMedicamento());
+            this.ptmt.setInt(2, medicamentoBean.getCodigo());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -117,12 +118,12 @@ public class HospitalDAO {
         } 
     }
     
-    public void excluir(HospitalBean hospitalbean){
+    public void excluir(MedicamentoBean medicamentoBean){ //Integer codigo
         try{
-            String query = "DELETE from Hospitais WHERE Codigo_Hospital = ?";
+            String query = "DELETE from medicamentos WHERE codigo_medicamento = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
-            this.ptmt.setInt(1, hospitalbean.getCodigo());
+            this.ptmt.setInt(1, medicamentoBean.getCodigo());
             this.ptmt.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -144,20 +145,21 @@ public class HospitalDAO {
     
     public List retornarTodos(){
         
-        List hospitais = new ArrayList();
-        HospitalBean hospitalBean = null;
+        List medicamento = new ArrayList();
+        MedicamentoBean medicamentoBean = null;
             
         try{    
-            String query = "SELECT Codigo_Hospital, Nome_Hospital FROM Hospitais";
+            String query = "SELECT codigo_medicamento, bula_medicamento FROM medicamentos";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
             this.rs = this.ptmt.executeQuery();
             
+            
             while(rs.next()){
-                hospitalBean = new HospitalBean();
-                hospitalBean.setCodigo(rs.getInt(1));
-                hospitalBean.setNome(rs.getString(2));
-                hospitais.add(hospitalBean);
+                medicamentoBean = new MedicamentoBean();
+                medicamentoBean.setCodigo(rs.getInt(1));
+                medicamentoBean.setMedicamento(rs.getString(2));
+                medicamento.add(medicamentoBean);
             }
             
         }catch(SQLException e){
@@ -176,24 +178,25 @@ public class HospitalDAO {
                 e.printStackTrace();
             }
         }
-        return hospitais;
+        return medicamento;
     }
     
-    public HospitalBean retornarPeloCodigo(Integer codigo){
+    public MedicamentoBean retornarPeloCodigo(Integer codigo){
         
-        HospitalBean hospitalBean = null;
+        MedicamentoBean medicamentoBean = null;
             
         try{    
-            String query = "SELECT Codigo_Hospital, Nome_Hospital FROM Hospitais WHERE Codigo_Hospital = ?";
+            String query = "SELECT codigo_medicamento, bula_medicamento FROM medicamentos WHERE codigo_medicamento = ?";
             this.con = getConexao();
             this.ptmt = con.prepareStatement(query);
             this.ptmt.setInt(1, codigo);
             this.rs = this.ptmt.executeQuery();
             
             while(rs.next()){
-                hospitalBean = new HospitalBean();
-                hospitalBean.setCodigo(rs.getInt(1));
-                hospitalBean.setNome(rs.getString(2));
+                medicamentoBean = new MedicamentoBean();
+                medicamentoBean.setCodigo(rs.getInt(1));
+                medicamentoBean.setMedicamento(rs.getString(2));
+
             }
             
         }catch(SQLException e){
@@ -212,7 +215,7 @@ public class HospitalDAO {
                 e.printStackTrace();
             }
         }
-        return hospitalBean;
+        return medicamentoBean;
     }
     
 }

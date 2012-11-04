@@ -50,10 +50,10 @@ public class HospitalWS {
     @WebMethod(operationName = "ExcluirHospital")
     @Oneway
     public void ExcluirHospital(@WebParam(name = "codigo") int codigo) {
-       
+        HospitalBean hospitalbean = new HospitalBean();
         HospitalDAO hospitalDAO = new HospitalDAO();
         
-        hospitalDAO.excluir(codigo);
+        hospitalDAO.excluir(hospitalbean);
        
     }
     

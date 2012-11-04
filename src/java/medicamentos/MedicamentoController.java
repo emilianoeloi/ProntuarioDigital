@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package hospital;
+package medicamentos;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,16 +18,16 @@ import javax.servlet.RequestDispatcher;
 
 /**
  *
- * @author emilianoeloi
+ * @author vilmar
  */
-@WebServlet(name = "HospitalController", urlPatterns = {"/HospitalController"})
-public class HospitalController extends HttpServlet{ 
+@WebServlet(name = "MedicamentoController", urlPatterns = {"/MedicamentoController"})
+public class MedicamentoController extends HttpServlet{ 
 
     protected void service (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HospitalDAO dao = new HospitalDAO();
-        HospitalBean hospital = new HospitalBean();
+        MedicamentoDAO dao = new MedicamentoDAO();
+        MedicamentoBean medicamento = new MedicamentoBean();
          
         String acao = request.getParameter("acao");
         
@@ -38,42 +38,42 @@ public class HospitalController extends HttpServlet{
                 
         if(acao != null){
            if (request.getParameter("codigo") != null && request.getParameter("codigo") !="" ){
-               hospital.setCodigo(Integer.parseInt(request.getParameter("codigo"))); 
+               medicamento.setCodigo(Integer.parseInt(request.getParameter("codigo"))); 
            }
            
-           hospital.setNome(request.getParameter("nome"));
+           medicamento.setMedicamento(request.getParameter("nome"));
 
         }
         
        try {
            RequestDispatcher rd = null;
            if (acao.equalsIgnoreCase("cadastrar")){
-               dao.cadastrar(hospital);
-               request.setAttribute("hospitalSelecionado", hospital);
-               rd = request.getRequestDispatcher("hospitalForm.jsp");
+               dao.cadastrar(medicamento);
+               request.setAttribute("medicamentoSelecionado", medicamento);
+               rd = request.getRequestDispatcher("medicamentoForm.jsp");
                
            } else if(acao.equalsIgnoreCase("listar")) {
-               List hospitalList = dao.retornarTodos();
-               request.setAttribute("hospitalList", hospitalList);
-               rd = request.getRequestDispatcher("hospitalLista.jsp");
+               List medicamentoList = dao.retornarTodos();
+               request.setAttribute("medicamentoList", medicamentoList);
+               rd = request.getRequestDispatcher("medicamentoLista.jsp");
                               
            } else if (acao.equalsIgnoreCase("excluir")){
-               dao.excluir(hospital);
-               rd = request.getRequestDispatcher("HospitalController?acao=listar");
+               dao.excluir(medicamento);
+               rd = request.getRequestDispatcher("MedicamentoController?acao=listar");
            
            } else if (acao.equalsIgnoreCase("obterum")){
             
-               hospital = dao.retornarPeloCodigo(hospital.getCodigo());
-               request.setAttribute("hospitalSelecionado", hospital);
-               rd = request.getRequestDispatcher("HospitalController?acao=formulario");
+               medicamento = dao.retornarPeloCodigo(medicamento.getCodigo());
+               request.setAttribute("medicamentoSelecionado", medicamento);
+               rd = request.getRequestDispatcher("MedicamentoController?acao=formulario");
 
            } else if(acao.equalsIgnoreCase("Formulario")) {
-               rd = request.getRequestDispatcher("hospitalForm.jsp");
+               rd = request.getRequestDispatcher("medicamentoForm.jsp");
            
            } else if (acao.equalsIgnoreCase("alterar")){
-               dao.alterar(hospital);
-               request.setAttribute("hospitalSelecionado", hospital);
-               rd = request.getRequestDispatcher("HospitalController?acao=formulario");
+               dao.alterar(medicamento);
+               request.setAttribute("medicamentoSelecionado", medicamento);
+               rd = request.getRequestDispatcher("MedicamentoController?acao=formulario");
            }
            rd.forward(request, response);
         } catch (Exception e) {            

@@ -101,7 +101,7 @@ public class PessoaController extends HttpServlet {
                     sessao.setMaxInactiveInterval(3600);
                     sessao.setAttribute("pessoaLogada", pessoa);
                }
-               rd = request.getRequestDispatcher("principal.jsp");
+               rd = request.getRequestDispatcher("principal.jsp"); 
                
            }else if(acao.equalsIgnoreCase("sair")){
                sessao.invalidate();
@@ -127,7 +127,7 @@ public class PessoaController extends HttpServlet {
                pessoa = dao.procurarPeloEmail(pessoa.getEmail());
                String existe = (pessoa == null) ? "false" : "true";
                request.setAttribute("retorno", existe);
-               rd = request.getRequestDispatcher("pessoaAjax.jsp");
+               rd = request.getRequestDispatcher("erro403.jsp"); //pessoaAjax.jsp
            }
            rd.forward(request, response);
 

@@ -19,7 +19,7 @@
     }
 %>
 
-<jsp:useBean id="hospitalSelecionado" scope="request" class="hospital.HospitalBean"></jsp:useBean>
+<jsp:useBean id="medicamentoSelecionado" scope="request" class="medicamentos.MedicamentoBean"></jsp:useBean>
 
 <jsp:include page="cabecalho.jsp" flush="true">
     <jsp:param name="pagina" value="principal" />
@@ -32,22 +32,22 @@
     </jsp:include>   
     <div class="span9">
         <h2>Hospital</h2>
-                <form class="form-hospital" method="POST" action="HospitalController">
-                   <input type="hidden" id="acao" name="acao" value="<% if(hospitalSelecionado.getCodigo() == 0 ) {%>cadastrar<%} else {%>alterar<%}%>" /> 
+                <form class="form-hospital" method="POST" action="MedicamentoController">
+                   <input type="hidden" id="acao" name="acao" value="<% if(medicamentoSelecionado.getCodigo() == 0 ) {%>cadastrar<%} else {%>alterar<%}%>" /> 
                     <fieldset>
-                        <legend><% if(hospitalSelecionado.getCodigo() == 0 ) {%> Cadastrar <%} else {%> Editar <%}%> Hospital</legend>
-                                <label>Código do Hospital<br />
-                                    <input readonly="readonly" type="text" id="codigo" name="codigo" class="input-xxlarge" value="<%if (hospitalSelecionado.getCodigo() == 0 ){out.print (""); } else {out.print(hospitalSelecionado.getCodigo());} %>">	
+                        <legend><% if(medicamentoSelecionado.getCodigo() == 0 ) {%> Cadastrar <%} else {%> Editar <%}%> Medicamento</legend>
+                                <label>Código do Medicamento<br />
+                                    <input readonly="readonly" type="text" id="codigo" name="codigo" class="input-xxlarge" value="<%if (medicamentoSelecionado.getCodigo() == 0 ){out.print (""); } else {out.print(medicamentoSelecionado.getCodigo());} %>">	
                                 </label>
-				<label>Nome do Hospital<br />
-                                    <input type="text" id="nome" name="nome" class="input-xxlarge" value="<%if (hospitalSelecionado.getCodigo()==0){ out.print("");} else {out.print(hospitalSelecionado.getNome());} %>">	
+				<label>Nome do Medicamento<br />
+                                    <input type="text" id="nome" name="nome" class="input-xxlarge" value="<%if (medicamentoSelecionado.getCodigo()==0){ out.print("");} else {out.print(medicamentoSelecionado.getMedicamento());} %>">	
                                 </label>
     
 			
 			<div style="text-align: center">
                        
 				<button type="submit" class="btn btn-primary">Salvar</button>
-				<button type="button" class="btn btn-danger" onclick="window.location = 'HospitalController'">Cancelar</button>
+				<button type="button" class="btn btn-danger" onclick="window.location = 'MedicamentoController'">Cancelar</button>
 				
                         </div>
                     </fieldset>

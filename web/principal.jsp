@@ -10,8 +10,10 @@
     try{
         pessoa = (PessoaBean)sessao.getAttribute("pessoaLogada");
         if(pessoa == null)
-            response.sendError(403, "Você não tem permissão!");
-
+            //response.sendError(403, "Você não tem permissão"); 
+            response.sendRedirect("erro403.jsp");  
+                  
+            
     }catch(Exception exc){
         response.sendError(403, "Você não tem permissão!");
     }
