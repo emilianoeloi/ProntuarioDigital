@@ -12,7 +12,7 @@ CREATE TABLE Pessoas
 	Data_Nascimento_Pessoa	DATE,
 	Email_Pessoa	VARCHAR(80) NOT NULL UNIQUE,
 	Senha_Pessoa	VARCHAR(100) NOT NULL,
-	Data_Cadastro_Pessoa DATE DEFAULT CURRENT_TIMESTAMP
+	Data_Cadastro_Pessoa DATE DEFAULT CURRENT_TIMESTAMP,
 	Status_pessoa int default 1 --1 Pendente 2 Ativo 3 Inativo
 );
 				
@@ -113,8 +113,8 @@ CREATE TABLE MedicoXEspecialidade
 	(
 	Codigo_Medico		INT NOT NULL,
 	Codigo_Especialidade	INT NOT NULL,
-	FOREIGN KEY(Codigo_Medico) REFERENCES Medicos(Codigo_Medico) ON UPDATE CASCADE ON DELETE CASCADE,	
-	FOREIGN KEY(Codigo_Hospital) REFERENCES Hospitais(Codigo_Hospital) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY(Codigo_Medico) REFERENCES Medicos(Codigo_Medico),
+	FOREIGN KEY(Codigo_especialidade) REFERENCES Especialidade(Codigo_especialidade)
 	);
 
 CREATE TABLE PacienteXExames
