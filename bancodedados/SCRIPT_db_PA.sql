@@ -1,7 +1,7 @@
 ﻿-- DROP TABLE Pacientes
 -- DROP TABLE Medicos
 -- DROP TABLE Pessoas
-create database prontuario_digital;
+create database sanus;
 
 CREATE TABLE Pessoas
 (
@@ -112,7 +112,6 @@ CREATE TABLE CirurgiasXHospitais
 CREATE TABLE MedicoXEspecialidade
 	(
 	Codigo_Medico		INT NOT NULL,
-	Codigo_Hospital		INT NOT NULL,
 	Codigo_Especialidade	INT NOT NULL,
 	FOREIGN KEY(Codigo_Medico) REFERENCES Medicos(Codigo_Medico),	
 	FOREIGN KEY(Codigo_Hospital) REFERENCES Hospitais(Codigo_Hospital)
