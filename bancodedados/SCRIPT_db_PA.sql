@@ -1,6 +1,8 @@
 ﻿-- DROP TABLE Pacientes
 -- DROP TABLE Medicos
 -- DROP TABLE Pessoas
+create database prontuario_digital;
+
 CREATE TABLE Pessoas
 (
 	Codigo_Pessoa	SERIAL PRIMARY KEY,
@@ -11,6 +13,7 @@ CREATE TABLE Pessoas
 	Email_Pessoa	VARCHAR(80) NOT NULL UNIQUE,
 	Senha_Pessoa	VARCHAR(100) NOT NULL,
 	Data_Cadastro_Pessoa DATE DEFAULT CURRENT_TIMESTAMP
+	Status_pessoa int default 1 --1 Pendente 2 Ativo 3 Inativo
 );
 				
 CREATE TABLE Pacientes(
