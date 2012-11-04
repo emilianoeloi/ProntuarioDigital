@@ -4,35 +4,37 @@
  */
 package hospital;
 
-public class HospitalBean{
-    
-    private int codigo;
-    private String nome;
+import java.io.Serializable;
 
-    public HospitalBean(int codigo, String nome){
-        this.codigo = codigo;
-        this.nome = nome;
-    }
+/**
+ *
+ * @author emilianoeloi
+ */
+public class HospitalBean implements Serializable {
+    
+    private Integer codigo=null;
+    private String nome =null;
     
     public HospitalBean(){
         
     }
-    
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
+    public HospitalBean(Integer codigo, String nome){
         this.codigo = codigo;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
         this.nome = nome;
     }
     
+    public void setCodigo(Integer codigo){
+        this.codigo = codigo;
+    }
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+    
+    public Integer getCodigo(){
+        return this.codigo;
+    }
+    public String getNome(){
+        return this.nome;
+    }
     
 }
