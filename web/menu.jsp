@@ -15,6 +15,8 @@
       <li><a href="PacienteController">Pacientes</a></li>
       <li><a href="RestricaoControl?cmd=ret">Restri&ccedil;&otilde;es</a></li>
       <li><a href="MedicamentoController">Medicamentos</a></li>
+	  <li><a href="EspecialidadeControl">Especialidades</a></li>
+      
       
       <li class="nav-header">M&eacute;dico</li>
       <li><a href="#">Dados pessoais</a></li>
