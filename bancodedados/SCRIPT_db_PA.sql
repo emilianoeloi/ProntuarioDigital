@@ -65,7 +65,8 @@ CREATE TABLE Restricoes
 CREATE TABLE Especialidade
 	(
 	Codigo_Especialidade	SERIAL NOT NULL,
-	Descricao_Especialidade	VARCHAR(40)			,
+	Nome_Especialidade	VARCHAR(40),
+	Descricao_Especialidade	VARCHAR(90),
 	PRIMARY KEY(Codigo_Especialidade)
 	
 	);
