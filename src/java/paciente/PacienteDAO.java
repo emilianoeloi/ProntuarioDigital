@@ -114,6 +114,26 @@ public class PacienteDAO extends GenericDAO {
         return false;
     }
     
+    public boolean existePeloCodigoPessoa(PessoaBean pessoa) throws SQLException{
+        Integer codigo = pessoa.getCodigo();
+        if(codigo == null || codigo == 0)
+            throw new GenericDAOException("O Código precisa ser válido.");
+        
+        try{
+            super.setSql("SELECT Codigo_Paciente FROM pacientes WHERE Codigo_Pessoa = ?");
+            super.setParametro(codigo);
+            super.executarSelect();
+            
+            while(super.getResultSet().next()){
+                return true;
+            }
+            
+        }catch(SQLException e){
+            throw new SQLException("Houve uma falha na Recuperação "+e);
+        }
+        return false;
+    }
+    
     public List retornarTodos() throws SQLException{
         
         List pacientes = new ArrayList();

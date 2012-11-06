@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import pessoa.*;
 import hospital.*;
 import medico.*;
+import paciente.*;
 import java.util.ArrayList;
 
 /**
@@ -46,6 +47,7 @@ public class PessoaController extends HttpServlet {
             acao = "listar";
         
         /// Instanciar bean/dao - Data Access Object
+        PacienteDAO daoPaciente;
         MedicoDAO daoMedico;
         PessoaDAO dao;
         PessoaBean pessoa = new PessoaBean();
@@ -66,6 +68,7 @@ public class PessoaController extends HttpServlet {
             
            dao = new PessoaDAO();
            daoMedico = new MedicoDAO();
+           daoPaciente = new PacienteDAO();
            RequestDispatcher rd = null;
            if(acao.equalsIgnoreCase("listar")){
                List pessoasList = dao.retornarTodos();
@@ -113,6 +116,8 @@ public class PessoaController extends HttpServlet {
                        perfis.add("administrador");
                    if(daoMedico.existePeloCodigoPessoa(pessoa))
                        perfis.add("medico");
+                   if(daoPaciente.existePeloCodigoPessoa(pessoa))
+                       perfis.add("paciente");
                    pessoa.setPerfis(perfis);
                    
                     sessao.setMaxInactiveInterval(3600);

@@ -83,6 +83,23 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
                request.setAttribute("pacienteSelecionado", paciente);
                rd = request.getRequestDispatcher("MedicoController?acao=formulario");
                
+           }else if(acao.equalsIgnoreCase("completarcadastro")){
+               /// Verificar se existem pessoa com esse CPF
+               dao.cadastrar(paciente);
+               request.setAttribute("pacienteSelecionado", paciente);
+               
+               /// Instanciar Pessoa do médico
+               PessoaBean pessoaPaciente = new PessoaBean();
+               pessoaPaciente.setCodigo(paciente.getCodigoPessoa());
+               pessoaPaciente.setSenha(paciente.getSenha());
+               pessoaPaciente.setStatus(2);
+               /// Setar senha
+               daoPessoa.definirSenha(pessoaPaciente);
+               /// Ativar usuário
+               daoPessoa.alterarStatus(pessoaPaciente);
+               
+               rd = request.getRequestDispatcher("PessoaController?acao=confirmarcadastro");
+               
            }else if(acao.equalsIgnoreCase("excluir")){
                dao.excluir(paciente);
                rd = request.getRequestDispatcher("MedicoController?acao=listar");
