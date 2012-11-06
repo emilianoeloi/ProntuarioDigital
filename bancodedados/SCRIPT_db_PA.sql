@@ -1,9 +1,9 @@
 ﻿-- DROP TABLE Pacientes
 
 -- DROP TABLE Medicos
-
+-- SELECT MD5('julia1') -- "8ec70a26c1ffbba5e35a269286e8cea4"
 -- DROP TABLE Pessoas
-create database sanus;
+--create database sanus;
 
 CREATE TABLE Pessoas
 (
@@ -20,12 +20,12 @@ CREATE TABLE Pessoas
 				
 CREATE TABLE Pacientes(
 	Codigo_Paciente	SERIAL PRIMARY KEY,
-	Codigo_Pessoa	INT REFERENCES Pessoas(Codigo_Pessoa)
+	Codigo_Pessoa	INT REFERENCES Pessoas(Codigo_Pessoa) UNIQUE
 );
 
 CREATE TABLE Medicos(
 	Codigo_Medico	SERIAL PRIMARY KEY,
-	Codigo_Pessoa	INT REFERENCES Pessoas(Codigo_Pessoa),
+	Codigo_Pessoa	INT REFERENCES Pessoas(Codigo_Pessoa) UNIQUE,
 	CRM_Medico 	VARCHAR(10) NOT NULL UNIQUE
 );
 

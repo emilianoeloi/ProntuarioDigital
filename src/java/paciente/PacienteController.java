@@ -2,33 +2,34 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package paciente;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
-
-import ferramenta.*;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
+import paciente.*;
 import pessoa.*;
+import util.*;
 
 /**
  *
  * @author emilianoeloi
  */
-@WebServlet(name = "PessoaController", urlPatterns = {"/PessoaController"})
-public class PessoaController extends HttpServlet {
+@WebServlet(name = "PacienteController", urlPatterns = {"/PacienteController"})
+public class PacienteController extends HttpServlet {
     
-    protected void service(HttpServletRequest request, HttpServletResponse response) 
+protected void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException
     {
+        ConverteData convData = new ConverteData();
+        request.setAttribute("convData", convData);
         /// sessao
         HttpSession sessao = request.getSession(true);
         
@@ -40,84 +41,67 @@ public class PessoaController extends HttpServlet {
             acao = "listar";
         
         /// Instanciar bean/dao - Data Access Object
-        InterfacePessoaDAO dao;
-        PessoaBean pessoa = new PessoaBean();
+        PessoaDAO daoPessoa = new PessoaDAO();
+        PacienteDAO dao;
+        PacienteBean paciente = new PacienteBean();
         
         if(acao != null || !acao.equalsIgnoreCase("lista")){
             if( request.getParameter("codigo") != null &&
                 request.getParameter("codigo") != "" )
-                pessoa.setCodigo(Integer.parseInt(request.getParameter("codigo")));
-            pessoa.setNome(request.getParameter("nome"));
-            pessoa.setCpf(request.getParameter("cpf"));
-            pessoa.setId(request.getParameter("id"));
-            pessoa.setSenha(request.getParameter("senha"));
-            pessoa.setEmail(request.getParameter("email"));
+                paciente.setCodigo(Integer.parseInt(request.getParameter("codigo")));
+            paciente.setNome(request.getParameter("nome"));
+            paciente.setCpf(request.getParameter("cpf"));
+            paciente.setId(request.getParameter("id"));
+            paciente.setSenha(request.getParameter("senha"));
+            paciente.setEmail(request.getParameter("email"));
+            paciente.setDataNascimento(convData.converteEmData(request.getParameter("data-nascimento")));
+            try{
+                paciente.setCodigoPessoa(Integer.parseInt(request.getParameter("codigo-pessoa")));
+            }catch(Exception e){
+                
+            }
         }
         
         try{
             
-           dao = new PessoaDAO();
+           dao = new PacienteDAO();
            RequestDispatcher rd = null;
            if(acao.equalsIgnoreCase("listar")){
-               List pessoasList = dao.retornarTodos();
-               request.setAttribute("pessoasList", pessoasList);
-               rd = request.getRequestDispatcher("pessoaLista.jsp");
+               List pacientesList = dao.retornarTodos();
+               request.setAttribute("pacientesList", pacientesList);
+               rd = request.getRequestDispatcher("pacienteLista.jsp");
                
            }else if(acao.equalsIgnoreCase("cadastrar")){
-               dao.cadastrar(pessoa);
-               request.setAttribute("pessoaSelecionada", pessoa);
-               rd = request.getRequestDispatcher("PessoaController?acao=formulario");
+               /// Verificar se existem pessoa com esse CPF
+               PessoaBean pessoa = daoPessoa.procurarPeloCpf(paciente);
+               if(pessoa.getCodigo() == 0){
+                   daoPessoa.cadastrar(paciente);
+               }else{
+                   paciente.setCodigoPessoa(pessoa.getCodigo());
+               }
+               dao.cadastrar(paciente);
+               request.setAttribute("pacienteSelecionado", paciente);
+               rd = request.getRequestDispatcher("MedicoController?acao=formulario");
                
            }else if(acao.equalsIgnoreCase("excluir")){
-               dao.excluir(pessoa);
-               rd = request.getRequestDispatcher("PessoaController?acao=listar");
+               dao.excluir(paciente);
+               rd = request.getRequestDispatcher("MedicoController?acao=listar");
                
            }else if(acao.equalsIgnoreCase("obterum")){
-               pessoa = dao.retornarPeloCodigo(pessoa.getCodigo());
-               request.setAttribute("pessoaSelecionada", pessoa);
-               rd = request.getRequestDispatcher("PessoaController?acao=formulario");
+               paciente = dao.retornarPeloCodigo(paciente);
+               request.setAttribute("pacienteSelecionado", paciente);
+               rd = request.getRequestDispatcher("MedicoController?acao=formulario");
                
            }else if(acao.equalsIgnoreCase("alterar")){
-               dao.alterar(pessoa);
-               request.setAttribute("pessoaSelecionada", pessoa);
-               rd = request.getRequestDispatcher("PessoaController?acao=formulario");
-               
-           }else if(acao.equalsIgnoreCase("principal")){
-               rd = request.getRequestDispatcher("principal.jsp");
-               
-           }else if(acao.equalsIgnoreCase("autenticar")){
-               pessoa = dao.recuperarPorUsuarioSenha(pessoa);
-               if(pessoa != null){
-                    sessao.setMaxInactiveInterval(3600);
-                    sessao.setAttribute("pessoaLogada", pessoa);
-               }
-               rd = request.getRequestDispatcher("principal.jsp");
-               
-           }else if(acao.equalsIgnoreCase("sair")){
-               sessao.invalidate();
-               rd = request.getRequestDispatcher("index.jsp");
-               
-           }else if(acao.equalsIgnoreCase("primeiro-cadastro")){
-               dao.cadastrar(pessoa);
-               request.setAttribute("pessoaPrimeiroCadastro", pessoa);
-               request.setAttribute("perfil", "pessoa");
-               rd = request.getRequestDispatcher("escolher-perfil.jsp");
-               
-           }else if(acao.equalsIgnoreCase("escolherperfil")){
-               request.setAttribute("pessoaPrimeiroCadastro", pessoa);
-               String perfil = request.getParameter("perfil");
-               request.setAttribute("perfil", perfil);
-               rd = request.getRequestDispatcher("escolher-perfil.jsp");
+               dao.alterar(paciente);
+               request.setAttribute("pacienteSelecionado", paciente);
+               rd = request.getRequestDispatcher("MedicoController?acao=formulario");
                
            }else if(acao.equalsIgnoreCase("formulario")){
-               rd = request.getRequestDispatcher("pessoaForm.jsp");
+               rd = request.getRequestDispatcher("pacienteForm.jsp");
                
-           }else if(acao.equalsIgnoreCase("checklogin")){
-               pessoa = dao.procurarPeloEmail(pessoa.getEmail());
-               String existe = (pessoa == null) ? "false" : "true";
-               request.setAttribute("retorno", existe);
-               rd = request.getRequestDispatcher("pessoaAjax.jsp");
            }
+           
            rd.forward(request, response);
 
         }catch(Exception e){
@@ -125,7 +109,7 @@ public class PessoaController extends HttpServlet {
             throw new ServletException(e);
         }
         
-    }
+    }       
 
     /**
      * Processes requests for both HTTP
@@ -139,8 +123,7 @@ public class PessoaController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

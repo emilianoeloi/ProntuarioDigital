@@ -48,7 +48,7 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
         
         try{
             super.setSql("INSERT INTO pessoas (Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, Data_Nascimento_Pessoa, Senha_Pessoa) "
-                          +"VALUES (?,?,?,?,?,?,MD5(?))");
+                          +"VALUES (?,?,?,?,?,?,MD5('S3nhaP4drao'))");
 
             super.setParametro(pessoa.getCodigo());
             super.setParametro(pessoa.getNome());
@@ -56,7 +56,6 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             super.setParametro(pessoa.getEmail());
             super.setParametro(pessoa.getId());
             super.setParametro(pessoa.getDataNascimento());
-            super.setParametro(pessoa.getSenha());
             
             super.executarInsert();
             
@@ -82,6 +81,44 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             super.setParametro(pessoa.getEmail());
             super.setParametro(pessoa.getId());
             super.setParametro(pessoa.getDataNascimento());
+            super.setParametro(pessoa.getCodigo());
+            
+            super.executarUpdate();
+            
+        }catch(GenericDAOException e){
+            throw new GenericDAOException("Houve uma falha na alteração"+e);
+        }
+    }
+    
+    public void definirSenha(PessoaBean pessoa) throws SQLException{
+        
+        if(pessoa == null)
+            throw new GenericDAOException("O objeto passado não pode ser nulo.");
+        
+        try{
+            
+            super.setSql("UPDATE pessoas SET Senha_Pessoa = MD5(?)  WHERE Codigo_Pessoa = ?");
+            
+            super.setParametro(pessoa.getSenha());
+            super.setParametro(pessoa.getCodigo());
+            
+            super.executarUpdate();
+            
+        }catch(GenericDAOException e){
+            throw new GenericDAOException("Houve uma falha na alteração"+e);
+        }
+    }
+    
+    public void alterarStatus(PessoaBean pessoa) throws SQLException{
+        
+        if(pessoa == null)
+            throw new GenericDAOException("O objeto passado não pode ser nulo.");
+        
+        try{
+            
+            super.setSql("UPDATE pessoas SET Status_Pessoa = ?  WHERE Codigo_Pessoa = ?");
+            
+            super.setParametro(pessoa.getStatus());
             super.setParametro(pessoa.getCodigo());
             
             super.executarUpdate();
@@ -201,6 +238,36 @@ public class PessoaDAO extends GenericDAO implements InterfacePessoaDAO {
             super.setSql("SELECT Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, "
                     + "Data_Nascimento_Pessoa, Senha_Pessoa FROM pessoas WHERE Email_Pessoa = ?");
             super.setParametro(email);
+            super.executarSelect();
+            
+            ResultSet rs = super.getResultSet();
+            while(rs.next()){
+                pessoa = new PessoaBean();
+                pessoa.setCodigo(rs.getInt(1));
+                pessoa.setNome(rs.getString(2));
+                pessoa.setCpf(rs.getString(3));
+                pessoa.setEmail(rs.getString(4));
+                pessoa.setId(rs.getString(5));
+                pessoa.setDataNascimento(rs.getDate(6));
+                pessoa.setSenha(rs.getString(7));
+            }
+            
+        }catch(GenericDAOException e){
+            throw new GenericDAOException("Houve uma falha ao tentar recuperar "+e);
+        }finally{
+            super.fecharConexao();
+        }
+        return pessoa;
+    }
+    
+    public PessoaBean procurarPeloCpf(PessoaBean pessoa) throws SQLException{
+        if(pessoa.getCpf().equals(""))
+            throw new GenericDAOException("O valor precisa ser preenchido.");        
+        
+        try{    
+            super.setSql("SELECT Codigo_Pessoa, Nome_Pessoa, Cpf_Pessoa, Email_Pessoa, Id_Pessoa, "
+                    + "Data_Nascimento_Pessoa, Senha_Pessoa FROM pessoas WHERE Cpf_Pessoa = ?");
+            super.setParametro(pessoa.getCpf());
             super.executarSelect();
             
             ResultSet rs = super.getResultSet();

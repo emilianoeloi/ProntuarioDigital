@@ -47,7 +47,8 @@ public class GenericDAO {
     
     public void fecharConexao() throws SQLException{
         if(this.stmt != null) this.stmt.close();
-        if(this.con != null) this.con.close();        
+        if(this.con != null) this.con.close();  
+        this.parametros = new ArrayList<Object>();
     }
     
     public ResultSet getResultSet(){
@@ -59,6 +60,8 @@ public class GenericDAO {
     }
     
     private void carregarParametros() throws SQLException{
+        if(this.parametros.size() == 0)
+            return;
         int i = 1;
         for(Object o : this.parametros){
             if(o instanceof String){
@@ -96,6 +99,7 @@ public class GenericDAO {
         }finally{
            if(this.stmt != null) this.stmt.close();
            if(this.con != null) this.con.close();
+           this.parametros = new ArrayList<Object>();
         }
     }
     

@@ -19,8 +19,12 @@
             <input type="text" id="nome" name="nome" />
         </label>
         <label>
-            Senha:
-            <input type="password" id="senha" name="senha" />
+            Perfil:
+            <select id="perfil" name="perfil">
+                <option value="">Escolha um perfil</option>
+                <option value="medico">Médico</option>
+                <option value="paciente">Paciente</option>
+            </select>    
         </label>
         <div style="text-align: right">
         <input type="submit" value="Iniciar cadastro..." class="btn btn-primary" />

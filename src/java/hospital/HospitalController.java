@@ -75,7 +75,16 @@ public class HospitalController extends HttpServlet{
                dao.alterar(hospital);
                request.setAttribute("hospitalSelecionado", hospital);
                rd = request.getRequestDispatcher("HospitalController?acao=formulario");
+           } else if (acao.equalsIgnoreCase("combo")){
+               String selecionado = request.getParameter("codigo_hospital");
+               List hospitalList = dao.retornarTodos();
+               request.setAttribute("hospitalList", hospitalList);
+               request.setAttribute("hospitalSelecionado", selecionado);
+               rd = request.getRequestDispatcher("comboHospital.jsp");
+           
            }
+           
+           
            rd.forward(request, response);
         } catch (Exception e) {            
             e.printStackTrace();

@@ -4,6 +4,7 @@
  */
 package pessoa;
 
+import hospital.HospitalDAO;
 import util.ConverteData;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,9 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 import pessoa.*;
+import hospital.*;
+import medico.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -42,7 +46,8 @@ public class PessoaController extends HttpServlet {
             acao = "listar";
         
         /// Instanciar bean/dao - Data Access Object
-        InterfacePessoaDAO dao;
+        MedicoDAO daoMedico;
+        PessoaDAO dao;
         PessoaBean pessoa = new PessoaBean();
         
         if(acao != null || !acao.equalsIgnoreCase("lista")){
@@ -60,6 +65,7 @@ public class PessoaController extends HttpServlet {
         try{
             
            dao = new PessoaDAO();
+           daoMedico = new MedicoDAO();
            RequestDispatcher rd = null;
            if(acao.equalsIgnoreCase("listar")){
                List pessoasList = dao.retornarTodos();
@@ -95,9 +101,20 @@ public class PessoaController extends HttpServlet {
            }else if(acao.equalsIgnoreCase("principal")){
                rd = request.getRequestDispatcher("principal.jsp");
                
+           }else if(acao.equalsIgnoreCase("confirmarcadastro")){
+               rd = request.getRequestDispatcher("sucesso-cadastro.jsp");
+               
            }else if(acao.equalsIgnoreCase("autenticar")){
                pessoa = dao.recuperarPorUsuarioSenha(pessoa);
                if(pessoa != null && pessoa.getStatus()==2){
+                   /// Verificar PErfis
+                   ArrayList<String> perfis = new ArrayList<String>();
+                   if(pessoa.getEmail().equalsIgnoreCase("adm@sanus.br"))
+                       perfis.add("administrador");
+                   if(daoMedico.existePeloCodigoPessoa(pessoa))
+                       perfis.add("medico");
+                   pessoa.setPerfis(perfis);
+                   
                     sessao.setMaxInactiveInterval(3600);
                     sessao.setAttribute("pessoaLogada", pessoa);
                }
@@ -107,11 +124,13 @@ public class PessoaController extends HttpServlet {
                sessao.invalidate();
                rd = request.getRequestDispatcher("index.jsp");
                
-           }else if(acao.equalsIgnoreCase("primeiro-cadastro")){
-               //pessoa.setSenha("S3nhaP4drao");
+           }else if(acao.equalsIgnoreCase("primeiro-cadastro")){   
+               String perfil = request.getParameter("perfil");
+               request.setAttribute("perfil", perfil);
+               
                dao.cadastrar(pessoa);
                request.setAttribute("pessoaPrimeiroCadastro", pessoa);
-               request.setAttribute("perfil", "pessoa");
+              
                rd = request.getRequestDispatcher("escolher-perfil.jsp");
                
            }else if(acao.equalsIgnoreCase("escolherperfil")){
@@ -127,7 +146,7 @@ public class PessoaController extends HttpServlet {
                pessoa = dao.procurarPeloEmail(pessoa.getEmail());
                String existe = (pessoa == null) ? "false" : "true";
                request.setAttribute("retorno", existe);
-               rd = request.getRequestDispatcher("erro403.jsp"); //pessoaAjax.jsp
+               rd = request.getRequestDispatcher("pessoaAjax.jsp");
            }
            rd.forward(request, response);
 

@@ -2,7 +2,7 @@
 <hr>
 
       <footer>
-        <p>2012/2 - Projeto Aplicado - Análise e desenvolvimento de sistemas - 3 Período - Instituto UNATEC de Tecnologia </p>
+        <p>Sanus - beta - 2012/2 - Projeto Aplicado - Análise e desenvolvimento de sistemas - 3 Período - Instituto UNATEC de Tecnologia </p>
       </footer>
 
     </div> <!-- /container -->
@@ -26,6 +26,7 @@
         $(".campo-cpf").mask("999.999.999-99");
         $(".campo-data").mask("99/99/9999");
         $(".campo-data").datepicker();
+                
     </script>
    	</body>
 </html>

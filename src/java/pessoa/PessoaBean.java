@@ -6,6 +6,7 @@ package pessoa;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import util.*;
 
 /**
@@ -24,6 +25,24 @@ public class PessoaBean implements Serializable {
     private Date dataNascimento;
     private String senha;
     private int status;
+    private ArrayList<String> perfis;
+    
+    public boolean checkPerfil(String perfil){
+        for(int i=0;i<perfis.size();i++){  
+            if(perfis.get(i).equalsIgnoreCase(perfil)){
+                return true;
+            }
+        } 
+        return false;
+    }
+
+    public ArrayList<String> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(ArrayList<String> perfis) {
+        this.perfis = perfis;
+    }
     
     public int getCodigo() {
         return codigo;
