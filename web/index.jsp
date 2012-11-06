@@ -35,31 +35,27 @@ cirurgias dentre outras informações relevantes.</p>
           com médicos diferentes.</p>
       <p><a class="btn" href="informacoes.jsp#comp">Mais sobre compartilhamento &raquo;</a></p>
     </div>
-    <div class="span4">
-      <h2>Integração</h2>
-      <p>Pode ser compartilhado pelo paciente. Qualquer médico que utilize o prontuário digital. Qualquer médico em qualquer lugar pode acessar os dados de 
-          um paciente específico. Isto garante qualidade, agilidade e eficiência mesmo em consultas com médicos diferentes.</p>
-      <p><a class="btn" href="informacoes.jsp#inte">Mais sobre integração &raquo;</a></p>
-   </div>
-    <div class="span4">
-      <h2>Histórico</h2>
-      <p>Além dos limites da clínica. Facilita o cruzamento de informações entre familiares auxiliando no tratamento de doenças hereditárias.</p>
-      <p><a class="btn" href="informacoes.jsp#hist">Mais sobre histórico &raquo;</a></p>
-    </div>
-    <div class="span4">
+       <div class="span4">
       <h2>Tecnologia</h2>
       <p>A programação orientada por objetos, o modelagem em banco de dados, a análise e desenvolvimento de sistemas e o desenvolvimento em Web são
          o carro chefe do desenvolvimento do nosso projeto</p>
       <p><a class="btn" href="informacoes.jsp#hist">Mais sobre tecnologia &raquo;</a></p>
     </div>  
-   <jsp:include page="boxpublicidade.jsp" flush="true">
-            <jsp:param name="pagina" value="info" />
-        </jsp:include>
     <div class="span4">
       <h2>Saúde</h2>
       <p>Esse foi o eixo tranversal escolhido para o Projeto e tem como objetivo principal oferecer uma ferramenta barada para controle da saúde das pessoas.</p>
       <p><a class="btn" href="informacoes.jsp#hist">Mais sobre tecnologia &raquo;</a></p>
-    </div> 
+    </div>
+    <div class="span4">
+      <h2>Histórico</h2>
+      <p>Além dos limites da clínica. Facilita o cruzamento de informações entre familiares auxiliando no tratamento de doenças hereditárias.</p>
+      <p><a class="btn" href="informacoes.jsp#hist">Mais sobre histórico &raquo;</a></p>
+    </div>
+   
+   <jsp:include page="boxpublicidade.jsp" flush="true">
+            <jsp:param name="pagina" value="info" />
+        </jsp:include>
+     
   </div>
 
 <!-- RODAPE -->

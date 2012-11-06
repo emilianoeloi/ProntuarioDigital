@@ -106,8 +106,14 @@
                     <li><a>Usabilidade</a></li>
                   </ul>
                 </li>
-              <li <% if(request.getParameter("pagina").equalsIgnoreCase("eixo")) { %> class="active" <% } %> ><a style="color: #fff" href="eixo.jsp">Saúde</a></li>
-              
+               <li style="color: #fff" class="dropdown">
+                  <a style="color: #fff" href="#" class="dropdown-toggle" data-toggle="dropdown">Saúde<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li class="nav-header">Eixo Transversal</li>
+                    <li><a>Gestão de informação de saúde</a></li>  
+                      
+                  </ul>
+                </li>
             </ul>
             <ul class="nav pull-right">
               <%if(pessoa == null){%>

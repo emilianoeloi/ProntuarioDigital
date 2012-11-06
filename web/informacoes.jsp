@@ -13,8 +13,9 @@
                    <div class="row">
             <div class="span12">
       <h1>Informações</h1>
-      <p>O objetivo do nosso Sistema Ã© centralizar informaÃ§Ãµes sobre o histÃ³rico de saÃºde do paciente e permitir o acompanhamento por qualquer mÃ©dico.
-O ProntuÃ¡rio Digital armazenarÃ¡ informaÃ§Ãµes Ãºteis para o procedimento de atendi-mento, pois, disponibiliza dados como tipo sanguÃ­neo do paciente, alergias, cirurgi-as dentre outras informaÃ§Ãµes relevantes.
+      <p>O objetivo do nosso Sistema é centralizar informações sobre o histórico de saúde do paciente e permitir o acompanhamento por qualquer médico.
+O Prontuário Digital armazenará informações úteis para o procedimento de atendimento, pois, disponibiliza dados como tipo sanguíneo do paciente, alergias, 
+cirurgias dentre outras informações relevantes.
 </p>
             </div>
         </div>
@@ -25,7 +26,7 @@ O ProntuÃ¡rio Digital armazenarÃ¡ informaÃ§Ãµes Ãºteis para o procedimento de at
           
           <h2>Compartilhamento</h2>
           
-          <p>Qualquer mÃ©dico em qualquer lugar pode acessar os dados de um paciente especÃ­fico. Isto garante qualidade, agilidade e eficiÃªncia mesmo em consultas com mÃ©dicos diferentes.</p>
+          <p>Qualquer médico em qualquer lugar pode acessar os dados de um paciente específico. Isto garante qualidade, agilidade e eficiência mesmo em consultas com médicos diferentes.</p>
           
         </div>
        
@@ -35,17 +36,10 @@ O ProntuÃ¡rio Digital armazenarÃ¡ informaÃ§Ãµes Ãºteis para o procedimento de at
         </jsp:include>
 
           
-       <a name="inte"></a>
-        <div class="span8">
-            
-          <h2>IntegraÃ§Ã£o</h2>
-          <p>Pode ser compartilhado pelo paciente. Qualquer mÃ©dico que utilize o prontuÃ¡rio digital. Qualquer mÃ©dico em qualquer lugar pode acessar os dados de um paciente especÃ­fico. Isto garante qualidade, agilidade e eficiÃªncia mesmo em consultas com mÃ©dicos diferentes.</p>
-          
-       </div>
         <div class="span8">
             <a name="hist"></a>
-            <h2>HistÃ³rico</h2>
-          <p>AlÃ©m dos limites da clÃ­nica. Facilita o cruzamento de informa-Ã§Ãµes entre familiares auxiliando no tratamento de doenÃ§as hereditÃ¡rias.</p>
+            <h2>Histórico</h2>
+          <p>Além dos limites da clínica. Facilita o cruzamento de informações entre familiares auxiliando no tratamento de doenças hereditárias.</p>
           
         </div>
       </div>
