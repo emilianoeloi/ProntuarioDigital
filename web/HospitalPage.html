@@ -1,0 +1,75 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="js/jquery.js"></script>
+        <script>
+            var webServiceURL = null;
+            var soapMessage = '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body><GetAllCategoryFamilies xmlns="http://tempuri.org/" /></soap12:Body></soap12:Envelope';
+            var dados;
+            
+            function CallService()
+            {
+                $.ajax({
+                    url: webServiceURL, 
+                    type: "get",
+                    dataType: "xml", 
+                    data: soapMessage, 
+                    contentType: "text/xml; charset=\"utf-8\"",
+                    success: OnSuccess, 
+                    error: OnError
+                });
+
+                return false;
+            }
+            function OnError(request, status, error)
+            {
+                console.log("Request", request);
+                console.log("Status", status);
+                console.log("Error", error);
+            }
+            function OnSuccess(data, status)
+            {
+                dados = data;
+                console.log("Data", data);
+                console.log("Status", status);
+            }
+            /// Iniciando 
+            $(document).ready(function() {
+                console.log("Iniciando Prontuário Digital");
+                /// Atribuir Evento
+                jQuery("#btn-retornarhospitais").click(
+                    function(){
+                        retornarHospitais();
+                    }
+                );
+            });
+
+            function retornarHospitais(){
+                console.log("Retornar Hospitais");
+                
+                webServiceURL = 'http://localhost:8080/ProntuarioDigital/HospitalWS?RetornarHospitais';
+                CallService();
+                
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Hospitais</h1>
+        <label>
+            Código:
+            <input type="text" id="codigo" />
+        </label><br />
+        <label>
+            Nome
+            <input type="text" id="nome" />
+        </label><br />
+        <input type="button" id="btn-cadastrarhospital" value="Cadastar Hospital" />
+        <input type="button" id="btn-retornarhospitais" value="Retornar Hospitais" />
+    </body>
+</html>
